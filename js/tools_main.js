@@ -444,7 +444,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
     // Loop through theme array and output thumbs
     function klOutputThemes(themeArray) {
         $.each(themeArray, function () {
-            $('.kl_wiki_themes').append('<li id="' + this + '" class="kl_template_theme kl_wiki_theme" rel="' + this +
+            $('.kl_wiki_themes').append('<li aria-label="' + this +' page theme" id="' + this + '"class="kl_template_theme kl_wiki_theme" rel="' + this +
                 '" data-tooltip="top" title="' + this +
                 '"><img src="' + klToolsPath + 'images/template_thumbs/' +
                 this + '.png" width="45" alt="' + this + '"></a></li>');
@@ -453,7 +453,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
     // Output themes
     function klOutputFrontPageThemes(themeArray) {
         $.each(themeArray, function () {
-            $('.kl_fp_themes').append('<li><a href="#" id="' + this + '" class="kl_template_theme kl_fp_theme" rel="' + this +
+            $('.kl_fp_themes').append('<li aria-label="' + this + ' front page theme"><a href="#" id="' + this + '" class="kl_template_theme kl_fp_theme" rel="' + this +
                 '" data-tooltip="top" title="' + this +
                 '"><img src="' + klToolsPath + 'images/template_thumbs/' +
                 this + '.png" width="90"></a></li>');
@@ -562,6 +562,9 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             if ($('.kl_banner_section').is(':checked') === false) {
                 $('.kl_banner_section').prop('checked', true).trigger('change');
             }
+
+            console.log("Clicked");
+
             $('.kl_theme_color_pickers').show();
             klInitializeColorPicker('#kl_banner_background', '#kl_banner', 'background-color');
             klInitializeColorPicker('#kl_banner_text', '#kl_banner', 'color');
@@ -577,6 +580,8 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             klInitializeColorPicker('#kl_banner_num_text', '.kl_mod_num', 'color');
             klRemoveTempContent();
         });
+
+
         $('.kl_remove_banner_left').unbind("click").click(function (e) {
             e.preventDefault();
             $(iframeID).contents().find('#kl_banner_left').remove();
@@ -653,9 +658,9 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             '</h3>' +
             '<div>' +
             '    <div class="btn-group kl_theme_color_toggle kl_option_third_wrap">' +
-            '       <a href="#" class="btn btn-small" rel="kl_fp_theme">Front</a>' +
-            '       <a href="#" class="btn btn-small active" rel="kl_wiki_theme">Pages</a>' +
-            '       <a href="#" class="btn btn-small" rel="kl_custom_theme">Customize</a>' +
+            '       <a aria-label="Front Page Themes" href="#" class="btn btn-small" rel="kl_fp_theme">Front</a>' +
+            '       <a aria-label="Pages Themes" href="#" class="btn btn-small active" rel="kl_wiki_theme">Pages</a>' +
+            '       <a aria-label="Customize Themes" href="#" class="btn btn-small" rel="kl_custom_theme">Customize</a>' +
             '    </div>' +
             '    <div class="kl_fp_theme_options" style="display:none">' +
             '       <h4>Front Page Themes</h4>' +
@@ -674,7 +679,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             '    </div>' +
             '    <div class="kl_custom_theme_options" style="display:none;">' +
             '       <h4>Customize Theme Colors</h4>' +
-            '       <table class="table table-striped table-condensed kl_theme_color_pickers"><thead><tr><th>Banner Colors</th><th>BG</th><th>Text</th></tr></thead>' +
+            '       <table class="table table-striped table-condensed kl_theme_color_pickers"><thead><tr><th>Banner Colors</th><th aria-label="Background Colors">BG</th><th aria-label="Text Colors">Text</th></tr></thead>' +
             '           <tbody>' +
             '               <tr><td>Section</td><td class="pickerWidth"><input type="text" id="kl_banner_background"></td><td class="pickerWidth"><input type="text" id="kl_banner_text"></td></tr>' +
             '               <tr><td>Heading <a class="kl_highlight_element" rel="#kl_banner h2" data-tooltip="top" title="Highlight Section"><i class="fa fa-eye"></i></a></td><td class="pickerWidth"><input type="text" id="kl_banner_heading_background"></td><td class="pickerWidth"><input type="text" id="kl_banner_heading_text"></td></tr>' +
@@ -1673,18 +1678,18 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             '            </div>' +
             '        </div>' +
             '        <div class="btn-group-label kl_margin_bottom">' +
-            '            <div class="btn-group">' +
+            '            <span>Nested List </span>'+
+            '                <div class="btn-group">' +
             '                <a class="btn btn-mini kl_outdent_list" data-tooltip="top" title="Outdent list one level"><i class="icon-outdent2"></i> Outdent</a>' +
             '                <a class="btn btn-mini kl_indent_list" data-tooltip="top" title="Indent list one level"><i class="icon-indent2"></i> Indent</a>' +
             '            </div>' +
-            '            <span>Nested List</span>' +
-            '        </div>' +
-            '        <div class="btn-group-label kl_margin_bottom">' +
-            '            <div class="btn-group">' +
+            '        </div>' +            
+            '       <div class="btn-group-label kl_margin_bottom">' +
+            '                <span>Pill List</span>' +               
+            '                 <div class="btn-group">' +
             '                <a class="btn btn-mini kl_pill_list" href="#" data-tooltip="top" title="Horizontal list with rounded borders. <br>Example: <ul class=\'pill\'><li>item 1</li><li>item 2</li><li>item 3</li></ul>">Pill List on/off</a>' +
-            '            </div>' +
-            '            <span>Pill List</span>' +
-            '        </div>' +
+            '                </div>' +
+            '           </div>' +
             '        <div class="kl_instructions_wrapper">' +
             '           <div class="kl_instructions">' +
             '               <p>Select an <span class="text-success"><strong>existing list</strong></span> in your content.</p>' +
@@ -2580,7 +2585,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             $('#kl_nav_list_items').append('<li rel="#kl_nav_' + linkID +
                 '"><span title="Drag to reorder" class="move_item_link" data-tooltip="top" title="' + tooltipText + '"><img alt="Move" src="/images/move.png?1366214258"></span>&nbsp;' +
                 displayText +
-                ' <i class="' + linkIcon + '"></i><a href="#" class="kl_nav_remove_list_item pull-right kl_remove icon-end" data-tooltip="top" title="" rel="#kl_nav_' +
+                ' <i aria-label="' + linkIcon + '"class="' + linkIcon + '"></i><a href="#" class="kl_nav_remove_list_item pull-right kl_remove icon-end" data-tooltip="top" title="" rel="#kl_nav_' +
                 linkID +
                 '"><span class="screenreader-only">Remove ' + displayText + ' nav item</span>');
             $(this).attr('id', 'kl_nav_' + linkID);
@@ -2681,12 +2686,12 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             '    </table>' +
             '    <div class="kl_instructions_wrapper">' +
             '       <div class="kl_instructions">' +
-            '           <i class="fa fa-link"></i> = Item contains a link<br>' +
-            '           <i class="fa fa-chain-broken"></i> = Item is not linked<br>' +
+            '           <i aria-label="Link Icon" class="fa fa-link"></i> = Item contains a link<br>' +
+            '           <i aria-label="Broken Link Icon" class="fa fa-chain-broken"></i> = Item is not linked<br>' +
             '           Customize <a href="#" class="kl_icons_activate btn btn-mini fa fa-tags">Icons</a>' +
             '       </div>' +
             '       <div class="kl_instructions kl_nav_help" style="display:none;">' +
-            '           <p>To complete <i class="fa fa-chain-broken"></i> item(s):</p>' +
+            '           <p>To complete <i aria-label="broken link" class="fa fa-chain-broken"></i> item(s):</p>' +
             '           <ol>' +
             '               <li>Update item text</li>' +
             '               <li>Use Canvas Tools to add a link</li>' +
@@ -3917,7 +3922,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             '            <div class="btn-group kl_margin_bottom">' +
             '                <a href="#" class="btn btn-mini kl_table_mce_command" rel="mceTableInsertRowBefore"><i class="icon-add"></i> Before/Above</a>' +
             '                <a href="#" class="btn btn-mini kl_table_mce_command" rel="mceTableInsertRowAfter"><i class="icon-add"></i> After/Under</a>' +
-            '            </div>' +
+            '            </div><br>' +
             '            <span>Insert Column: </span><br>' +
             '            <div class="btn-group kl_margin_bottom">' +
             '                <a href="#" class="btn btn-mini kl_table_mce_command" rel="mceTableInsertColBefore"><i class="icon-add"></i> Before</a>' +
