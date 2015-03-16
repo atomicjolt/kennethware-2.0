@@ -83,11 +83,11 @@
 						<h3 class="panel-title">What is This?</h3>
 					</div>
 					<div class="panel-body">
-						<p>This tool will allow you to crop and resize an image and uploaded it to your course files.</p>
+						<p>This tool will allow you to crop and resize an image and upload it to your course files.</p>
 						<p>This tool includes image aspect ratios related to the front page themes that can be created by the Canvas Custom Tools.</p>';
 						for ($row=0; $row < count($templates); $row++) { 
 			  					$templateName = $templates[$row][0];
-			  					echo '<div class="col-xs-2"><div class="thumbnail"><img src="../../images/template_thumbs/'.$templateName.'.png"></div></div>';
+			  					echo '<div class="col-xs-2"><div class="thumbnail"><img src="../../images/template_thumbs/'.$templateName.'.png" alt="Uploaded Image"></div></div>';
 			  				}
 					echo '</div>
 				</div>

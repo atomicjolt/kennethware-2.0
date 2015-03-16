@@ -148,22 +148,22 @@ require_once 'wizardAPI.php';
 														</li>
 														<li>
 															<div class="btn-group">
-																<a href="#" class="btn btn-xs btn-default countDecrease" rel="#assignmentCount_' . $module->id . '"><i class="fa fa-minus"></i></a>
-																<a href="#" class="btn btn-xs btn-default countIncrease" rel="#assignmentCount_' . $module->id . '"><i class="fa fa-plus"></i></a>
+																<a href="#" class="btn btn-xs btn-default countDecrease" rel="#assignmentCount_' . $module->id . '"><i aria-label="subtract symbol" class="fa fa-minus"></i></a>
+																<a href="#" class="btn btn-xs btn-default countIncrease" rel="#assignmentCount_' . $module->id . '"><i aria-label="add symbol" class="fa fa-plus"></i></a>
 															</div>
 															<span id="assignmentCount_' . $module->id . '" class="countInput input-mini">0</span> Assignments
 														</li>
 														<li>
 															<div class="btn-group">
-																<a href="#" class="btn btn-xs btn-default countDecrease" rel="#discussionCount_' . $module->id . '"><i class="fa fa-minus"></i></a>
-																<a href="#" class="btn btn-xs btn-default countIncrease" rel="#discussionCount_' . $module->id . '"><i class="fa fa-plus"></i></a>
+																<a href="#" class="btn btn-xs btn-default countDecrease" rel="#discussionCount_' . $module->id . '"><i aria-label="subtract symbol" class="fa fa-minus"></i></a>
+																<a href="#" class="btn btn-xs btn-default countIncrease" rel="#discussionCount_' . $module->id . '"><i aria-label="add symbol" class="fa fa-plus"></i></a>
 															</div>
 															<span id="discussionCount_' . $module->id . '" class="countInput input-mini">0</span> Discussions
 														</li>
 														<li>
 															<div class="btn-group">
-																<a href="#" class="btn btn-xs btn-default countDecrease" rel="#quizCount_' . $module->id . '"><i class="fa fa-minus"></i></a>
-																<a href="#" class="btn btn-xs btn-default countIncrease" rel="#quizCount_' . $module->id . '"><i class="fa fa-plus"></i></a>
+																<a href="#" class="btn btn-xs btn-default countDecrease" rel="#quizCount_' . $module->id . '"><i aria-label="subtract symbol" class="fa fa-minus"></i></a>
+																<a href="#" class="btn btn-xs btn-default countIncrease" rel="#quizCount_' . $module->id . '"><i aria-label="add symbol" class="fa fa-plus"></i></a>
 															</div>
 															<span id="quizCount_' . $module->id . '" class="countInput input-mini">0</span> Quizzes
 														</li>
