@@ -29,7 +29,7 @@ class BLTI {
         // If this request is not an LTI Launch, either
         // give up or try to retrieve the context from session
         if ( ! is_basic_lti_request() ) {
-            if ( $usesession === false ) return;  
+            if ( $usesession === false ) return;
             if ( strlen(session_id()) > 0 ) {
                 $row = $_SESSION['_basiclti_lti_row'];
                 if ( isset($row) ) $this->row = $row;
@@ -65,17 +65,14 @@ class BLTI {
             $this->message = "Constructor requires a secret or database information.";
             return;
         } else {
-            $sql = 'SELECT * FROM '.$parm['table'].' WHERE '.
-                ($parm['key_column'] ? $parm['key_column'] : 'oauth_consumer_key').
-                '='.
-                "'".mysql_real_escape_string($oauth_consumer_key)."'";
-            $result = mysql_query($sql);
-            $num_rows = mysql_num_rows($result);
+            $query_key = $parm['key_column'] ? $parm['key_column'] : 'oauth_consumer_key';
+            $result = pg_query_params('SELECT * FROM $1 WHERE $2 = $3', array($parm['table'], $query_key, $oauth_consumer_key));
+            $num_rows = pg_num_rows($result);
             if ( $num_rows != 1 ) {
                 $this->message = "Your consumer is not authorized oauth_consumer_key=".$oauth_consumer_key;
                 return;
             } else {
-                while ($row = mysql_fetch_assoc($result)) {
+                while ($row = pg_fetch_assoc($result)) {
                     $secret = $row[$parms['secret_column']?$parms['secret_column']:'secret'];
                     $context_id = $row[$parms['context_column']?$parms['context_column']:'context_id'];
                     if ( $context_id ) $this->context_id = $context_id;
@@ -98,7 +95,7 @@ class BLTI {
         $method = new OAuthSignatureMethod_HMAC_SHA1();
         $server->add_signature_method($method);
         $request = OAuthRequest::from_request();
-        
+
         $this->basestring = $request->get_signature_base_string();
 
         try {
@@ -177,7 +174,7 @@ class BLTI {
         if ( strlen($familyname) > 0 ) return $familyname;
         return $this->getUserName();
     }
-  
+
     function getUserName() {
         $givenname = $this->info['lis_person_name_given'];
         $familyname = $this->info['lis_person_name_family'];
@@ -253,7 +250,7 @@ class BLTI {
             header("Location: $location");
     }
 
-    function dump() { 
+    function dump() {
         if ( ! $this->valid or $this->info == false ) return "Context not valid\n";
         $ret = "";
         if ( $this->isInstructor() ) {

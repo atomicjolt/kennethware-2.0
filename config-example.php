@@ -7,7 +7,7 @@
 	/* TEMPLATE WIZARD CONFIG  */
 	/***************************/
 	// The URL for where the "wizard" folder is located
-
+	$user_id = explode(".", $_SERVER['HTTP_HOST'], 2)[0];
 	$_SESSION['template_wizard_url'] = 'https://<path to wizard>/wizard';
 	require_once __DIR__.'/wizard/resources/blti.php';
 	require_once __DIR__.'/wizard/resources/cryptastic.php';
