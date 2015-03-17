@@ -11,29 +11,32 @@
 	$_SESSION['template_wizard_url'] = 'https://<path to wizard>/wizard';
 	require_once __DIR__.'/wizard/resources/blti.php';
 	require_once __DIR__.'/wizard/resources/cryptastic.php';
-	require_once __DIR__.'/wizard/resources/meekrodb2.2.class.php';
-	
-	// Database connection information for Template Wizard
-	DB::$host ='';
-	DB::$user = '';
-	DB::$password = '';
-	DB::$dbName = '';
+
+	$database = pg_connect('host=127.0.0.1 dbname=oauth_lti_template_development connect_timeout=5');
+
+	//Still need to get user_id from url
 
 	// Strings to help encrypt/decrypt user OAuth tokens
-	$pass = '';
-	$salt = '';
+	$result = pg_query_params($database, 'SELECT * FROM accounts WHERE id = $1', array($user_id)) or die('Query failed');
+
+	$account = pg_fetch_object($result, 0);
+
+	pg_free_result($result);
+
+	$salt = $account->salt;
+	$pass = $account->pass;
 
 	// Your Canvas OAuth2 Developer information. Used for getting OAuth tokens from users
 	$client_id = '#####';
 	$clientSecret = '######';
-	
+
 	// The Shared Secret you use when setting up the Template Wizard LTI tool
-	$lti_secret = "###";
+	$lti_secret = $account->lti_secret;
 
 	// Message to display if the OAuth token request fails
 	$oauth_error_message = 'There is a problem, contact someone to fix it';
 
-	// TEMPLATE ARRAY (templateName, minWidth,minHeight, ratioX,ratioY) 
+	// TEMPLATE ARRAY (templateName, minWidth,minHeight, ratioX,ratioY)
 	// This array is for customizing banner images for template themes
 	$templates = array (
 		array('kl_fp_horizontal_nav_2', 1050,312, 215,64),
@@ -56,7 +59,7 @@
 	/***************************/
 
 	// These variables for the Content Tools to make API calls
-	$canvasDomain = 'https://<your domain>.instructure.com';
+	$canvasDomain = $account->canvas_uri; // 'https://<your domain>.instructure.com';
 	// This OAuth token needs to make GET API calls for any course in your institution
 	$apiToken = "###";
 ?>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 	ob_start();
 	// Display any php errors (for development purposes)
 	error_reporting(E_ALL);
@@ -20,8 +20,8 @@
 		$domain = $_SESSION['apiDomain'];
 
 		/* query DB to see if user has token, if yes, go to LTI*/
-		$userCheck = DB::query("SELECT canvas_user_id FROM tokens WHERE canvas_user_id = $canvasUserID AND domain = '$domain'");
-		
+		$result = pg_query_params("SELECT canvas_user_id FROM tokens WHERE canvas_user_id = $1 AND domain = $1", array($canvasUserID,$domain));
+		$userCheck = pg_fetch_result($result, 0, 'canvas_user_id');
 		if (!$userCheck){
 			$generateToken = true;
 		} else {
@@ -31,7 +31,7 @@
 			// test token
 			$course = getCourse($_SESSION['courseID']);
 			if (isset($course->errors[0]->message)){
-				$sql = DB::query("DELETE FROM tokens WHERE canvas_user_id = $canvasUserID AND domain = '$domain'");
+				$sql = pg_query_params("DELETE FROM tokens WHERE canvas_user_id = $1 AND domain = $2", array($canvasUserID,$domain));
 				$generateToken = true;
 			}
 			if (isset($course->name)){
@@ -43,7 +43,7 @@
 			// if not, redirect to canvas permission page
 			header('Location: '.$_SESSION['canvasURL'].'/login/oauth2/auth?client_id='.$client_id.'&response_type=code&redirect_uri='.$_SESSION["template_wizard_url"].'/oauth2response.php');
 		} else {
-			header('Location: '.$_SESSION["template_wizard_url"].'/index.php');	
+			header('Location: '.$_SESSION["template_wizard_url"].'/index.php');
 		}
 	} else {
 		echo $oauth_error_message;

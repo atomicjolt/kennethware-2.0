@@ -11,7 +11,8 @@
     $domain = $_SESSION['apiDomain'];
 
     //retrieve user token from database
-    $encrypted_token = DB::query("SELECT encrypted_token FROM tokens WHERE canvas_user_id = $userID AND domain = '$domain'" );
+    $result = pg_query_params("SELECT encrypted_token FROM tokens WHERE canvas_user_id = $1 AND domain = $2",array($userID,$domain));
+    $encrypted_token = pg_fetch_result($result, 0, 'encrypted_token');
     //decrypt token
     $cryptastic = new cryptastic;
     $key = $cryptastic->pbkdf2($pass, $salt, 1000, 32);
@@ -43,11 +44,11 @@
 
                         $key = $h[0];
                     }
-                    else { 
+                    else {
                         if (substr($h[0], 0, 1) == "\t")
                             $headers[$key] .= "\r\n\t".trim($h[0]);
-                        elseif (!$key) 
-                            $headers[0] = trim($h[0]); 
+                        elseif (!$key)
+                            $headers[0] = trim($h[0]);
                     }
                 }
 
@@ -71,7 +72,7 @@
             $body = substr($result, $header_size);
             $data = json_decode($body);
             curl_close($ch);
-                
+
             #Parse Link Information
             $header_info = http_parse_headers($header);
             if(isset($header_info['Link'])){
