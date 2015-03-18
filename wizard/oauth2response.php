@@ -31,7 +31,7 @@
 	//store encrypted token in the database
 	$userID=$_SESSION['userID'];
 	$escapedDomain = $_SESSION['apiDomain'];
-	$result = pg_query_params('INSERT INTO tokens VALUES (DEFAULT,$1,$2,$3)', array($userID, $encrypted_token, $escapedDomain));
+	$result = pg_query_params('INSERT INTO tokens VALUES (DEFAULT,$1,$2,$3)', array($userID, $encrypted_token, $escapedDomain)) or die('Error in query: '.pg_last_error());
 
 	$_SESSION['allowed'] = true;
 	/*  redirect to main tool page */

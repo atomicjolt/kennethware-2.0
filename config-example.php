@@ -17,7 +17,7 @@
 	//Still need to get user_id from url
 
 	// Strings to help encrypt/decrypt user OAuth tokens
-	$result = pg_query_params($database, 'SELECT * FROM accounts WHERE id = $1', array($user_id)) or die('Query failed');
+	$result = pg_query_params($database, 'SELECT * FROM accounts WHERE id = $1', array($user_id)) or die('Error in query: '.pg_last_error());
 
 	$account = pg_fetch_object($result, 0);
 

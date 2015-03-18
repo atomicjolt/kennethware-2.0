@@ -20,7 +20,7 @@
 		$domain = $_SESSION['apiDomain'];
 
 		/* query DB to see if user has token, if yes, go to LTI*/
-		$result = pg_query_params("SELECT canvas_user_id FROM tokens WHERE canvas_user_id = $1 AND domain = $1", array($canvasUserID,$domain));
+		$result = pg_query_params("SELECT canvas_user_id FROM tokens WHERE canvas_user_id = $1 AND domain = $1", array($canvasUserID,$domain)) or die('Error in query: '.pg_last_error());
 		$userCheck = pg_fetch_result($result, 0, 'canvas_user_id');
 		if (!$userCheck){
 			$generateToken = true;
@@ -31,7 +31,7 @@
 			// test token
 			$course = getCourse($_SESSION['courseID']);
 			if (isset($course->errors[0]->message)){
-				$sql = pg_query_params("DELETE FROM tokens WHERE canvas_user_id = $1 AND domain = $2", array($canvasUserID,$domain));
+				$sql = pg_query_params("DELETE FROM tokens WHERE canvas_user_id = $1 AND domain = $2", array($canvasUserID,$domain)) or die('Error in query: '.pg_last_error());
 				$generateToken = true;
 			}
 			if (isset($course->name)){

@@ -66,7 +66,7 @@ class BLTI {
             return;
         } else {
             $query_key = $parm['key_column'] ? $parm['key_column'] : 'oauth_consumer_key';
-            $result = pg_query_params('SELECT * FROM $1 WHERE $2 = $3', array($parm['table'], $query_key, $oauth_consumer_key));
+            $result = pg_query_params('SELECT * FROM $1 WHERE $2 = $3', array($parm['table'], $query_key, $oauth_consumer_key)) or die('Error in query: '.pg_last_error());
             $num_rows = pg_num_rows($result);
             if ( $num_rows != 1 ) {
                 $this->message = "Your consumer is not authorized oauth_consumer_key=".$oauth_consumer_key;
