@@ -10,3 +10,5 @@ css/development.css
 wizard/devWizardLTI.xml
 
 vendor/
+
+.DS_Store

@@ -13,17 +13,20 @@
 	require_once __DIR__.'/wizard/resources/cryptastic.php';
 	require_once($_SERVER['DOCUMENT_ROOT'].'/kennethware-2.0/vendor/phpseclib/phpseclib/phpseclib/Crypt/AES.php');
 
-	$database = pg_connect('host=127.0.0.1 dbname=oauth_lti_template_development connect_timeout=5');
+  $dbType = "pgsql";
+  $dbName = "unizin_manager_development";
+  $dbHost = "127.0.0.1";
+  $dbUser = "davidspencer";
+  $dbPass = "";
+  $dsn = "$dbType:dbname=$dbName;host=$dbHost;user=$dbUser;password=$dbPass";
+  $dbh = new PDO($dsn);
+$user_id = 2;
+  $result = $dbh->prepare('SELECT * FROM accounts WHERE id = ?');
+  $result->execute(array($user_id));
 
-	//Still need to get user_id from url
+  $account = $result->fetch(PDO::FETCH_OBJ);
 
-	// Strings to help encrypt/decrypt user OAuth tokens
-	$result = pg_query_params($database, 'SELECT * FROM accounts WHERE id = $1', array($user_id)) or die('Error in query: '.pg_last_error());
-
-	$account = pg_fetch_object($result, 0);
-
-	pg_free_result($result);
-
+  // Strings to help encrypt/decrypt user OAuth tokens
 	$salt = $account->salt;
 	$pass = $account->pass;
 

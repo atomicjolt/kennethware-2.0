@@ -11,8 +11,9 @@
     $domain = $_SESSION['apiDomain'];
 
     //retrieve user token from database
-    $result = pg_query_params("SELECT encrypted_token FROM tokens WHERE canvas_user_id = $1 AND domain = $2",array($userID,$domain))or die('Error in query: '.pg_last_error());
-    $encrypted_token = pg_fetch_result($result, 0, 'encrypted_token');
+    $result = $dbh->prepare("SELECT encrypted_token FROM tokens WHERE canvas_user_id = ? AND domain = ?");
+    $result->execute(array($userID,$domain));
+    $encrypted_token = result->fetch(PG::FETCH_ASSOC)['encrypted_token'];
     //decrypt token
     $cryptastic = new cryptastic;
     $key = $cryptastic->pbkdf2($pass, $salt, 1000, 32);

@@ -66,13 +66,14 @@ class BLTI {
             return;
         } else {
             $query_key = $parm['key_column'] ? $parm['key_column'] : 'oauth_consumer_key';
-            $result = pg_query_params('SELECT * FROM $1 WHERE $2 = $3', array($parm['table'], $query_key, $oauth_consumer_key)) or die('Error in query: '.pg_last_error());
-            $num_rows = pg_num_rows($result);
-            if ( $num_rows != 1 ) {
+            $result = $dbh->prepare('SELECT * FROM tokens WHERE ? = ?');
+            $result->execute(array($query_key, $oauth_consumer_key));
+
+            if ( $result->rowCount() != 1 ) {
                 $this->message = "Your consumer is not authorized oauth_consumer_key=".$oauth_consumer_key;
                 return;
             } else {
-                while ($row = pg_fetch_assoc($result)) {
+                while ($row = $result->fetch(PG::FETCH_ASSOC)) {
                     $secret = $row[$parms['secret_column']?$parms['secret_column']:'secret'];
                     $context_id = $row[$parms['context_column']?$parms['context_column']:'context_id'];
                     if ( $context_id ) $this->context_id = $context_id;
