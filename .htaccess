@@ -18,17 +18,14 @@ Order Allow,Deny
 Deny from all
 </Files>
 
-<Directory "vendor">
+<Files "config-example.php">
 Order Allow,Deny
 Deny from all
-</Directory>
+</Files>
 
-<Directory "config-example.php">
+<Files "config.php">
 Order Allow,Deny
 Deny from all
-</Directory>
+</Files>
 
-<Directory "config.php">
-Order Allow,Deny
-Deny from all
-</Directory>
+
