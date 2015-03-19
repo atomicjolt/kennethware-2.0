@@ -31,14 +31,14 @@
 
 	//Decrypt the canvas token in the account manager
 	$encrypted_token = base64_decode($account->encrypted_canvas_token);
-	$password = getenv("PASSWORD");
+	$encryption_key = getenv("ENCRYPTION_KEY");
 	$salt = $account->encrypted_canvas_token_salt;
 	$iv = base64_decode($account->encrypted_canvas_token_iv);
 
 	$cipher = new Crypt_AES();
 	$cipher->setKeyLength(256);
 
-	$cipher->setPassword($password, "pbkdf2", "sha1", $salt, 2000, 256 / 8);
+	$cipher->setPassword($encryption_key, "pbkdf2", "sha1", $salt, 2000, 256 / 8);
 	$cipher->setIV($iv);
 
 	// This OAuth token needs to make GET API calls for any course in your institution
