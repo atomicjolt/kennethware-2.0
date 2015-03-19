@@ -16,9 +16,8 @@
   $dbType = "pgsql";
   $dbName = "unizin_manager_development";
   $dbHost = "127.0.0.1";
-  $dbUser = "davidspencer";
   $dbPass = "";
-  $dsn = "$dbType:dbname=$dbName;host=$dbHost;user=$dbUser;password=$dbPass";
+  $dsn = "$dbType:dbname=$dbName;host=$dbHost;password=$dbPass";
   $dbh = new PDO($dsn);
 $user_id = 2;
   $result = $dbh->prepare('SELECT * FROM accounts WHERE id = ?');
