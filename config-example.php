@@ -19,7 +19,7 @@
   $dbPass = "";
   $dsn = "$dbType:dbname=$dbName;host=$dbHost;password=$dbPass";
   $dbh = new PDO($dsn);
-$user_id = 2;
+
   $result = $dbh->prepare('SELECT * FROM accounts WHERE id = ?');
   $result->execute(array($user_id));
 
