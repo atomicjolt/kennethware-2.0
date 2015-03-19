@@ -29,7 +29,7 @@
 
 	//Decrypt the canvas token in the account manager
 	$encrypted_token = base64_decode($account->encrypted_canvas_token);
-	$password = 'e506763de011f77cca0e46b387f52b3d89ae10bcaa69ba1fd9f8815ffbe05d8ecb343ffd6844c402ef644b2960765108b04201db199968d0c824d3d8c8a955d1';
+	$password = getenv("PASSWORD");
 	$salt = $account->encrypted_canvas_token_salt;
 	$iv = base64_decode($account->encrypted_canvas_token_iv);
 
