@@ -1,0 +1,34 @@
+<Files ~ ".gitignore">
+Order Allow,Deny
+Deny from all
+</Files>
+
+<Files ~ "composer.*">
+Order Allow,Deny
+Deny from all
+</Files>
+
+<Files ~ "Procfile">
+Order Allow,Deny
+Deny from all
+</Files>
+
+<Files ~ "README.md">
+Order Allow,Deny
+Deny from all
+</Files>
+
+<Directory "vendor">
+Order Allow,Deny
+Deny from all
+</Directory>
+
+<Directory "config-example.php">
+Order Allow,Deny
+Deny from all
+</Directory>
+
+<Directory "config.php">
+Order Allow,Deny
+Deny from all
+</Directory>
