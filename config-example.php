@@ -11,6 +11,7 @@
 	$_SESSION['template_wizard_url'] = 'https://<path to wizard>/wizard';
 	require_once __DIR__.'/wizard/resources/blti.php';
 	require_once __DIR__.'/wizard/resources/cryptastic.php';
+	require_once($_SERVER['DOCUMENT_ROOT'].'/kennethware-2.0/vendor/phpseclib/phpseclib/phpseclib/Crypt/AES.php');
 
 	$database = pg_connect('host=127.0.0.1 dbname=oauth_lti_template_development connect_timeout=5');
 
@@ -25,6 +26,21 @@
 
 	$salt = $account->salt;
 	$pass = $account->pass;
+
+	//Decrypt the canvas token in the account manager
+	$encrypted_token = base64_decode($account->encrypted_canvas_token);
+	$password = 'e506763de011f77cca0e46b387f52b3d89ae10bcaa69ba1fd9f8815ffbe05d8ecb343ffd6844c402ef644b2960765108b04201db199968d0c824d3d8c8a955d1';
+	$salt = $account->encrypted_canvas_token_salt;
+	$iv = base64_decode($account->encrypted_canvas_token_iv);
+
+	$cipher = new Crypt_AES();
+	$cipher->setKeyLength(256);
+
+	$cipher->setPassword($password, "pbkdf2", "sha1", $salt, 2000, 256 / 8);
+	$cipher->setIV($iv);
+
+	// This OAuth token needs to make GET API calls for any course in your institution
+	$apiToken = $cipher->decrypt($encrypted_token);
 
 	// Your Canvas OAuth2 Developer information. Used for getting OAuth tokens from users
 	$client_id = '#####';
@@ -60,6 +76,4 @@
 
 	// These variables for the Content Tools to make API calls
 	$canvasDomain = $account->canvas_uri; // 'https://<your domain>.instructure.com';
-	// This OAuth token needs to make GET API calls for any course in your institution
-	$apiToken = "###";
 ?>
