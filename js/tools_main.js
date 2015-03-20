@@ -410,6 +410,10 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
         tinyMCE.DOM.setAttrib(tinymce.activeEditor.selection.getNode(), 'data-mce-style', '');
     }
 
+    
+
+     
+
 /////////////////////////////////////////////////////////////
 //  THEMES SECTION                                         //
 /////////////////////////////////////////////////////////////
@@ -444,7 +448,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
     // Loop through theme array and output thumbs
     function klOutputThemes(themeArray) {
         $.each(themeArray, function () {
-            $('.kl_wiki_themes').append('<li aria-label="' + this +' page theme" id="' + this + '"class="kl_template_theme kl_wiki_theme" rel="' + this +
+            $('.kl_wiki_themes').append('<li aria-label="' + this +' page theme" <a tabindex="0" href="#" id="' + this + '" class="kl_template_theme kl_wiki_theme" rel="' + this +
                 '" data-tooltip="top" title="' + this +
                 '"><img src="' + klToolsPath + 'images/template_thumbs/' +
                 this + '.png" width="45" alt="' + this + '"></a></li>');
@@ -453,7 +457,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
     // Output themes
     function klOutputFrontPageThemes(themeArray) {
         $.each(themeArray, function () {
-            $('.kl_fp_themes').append('<li aria-label="' + this + ' front page theme"><a href="#" id="' + this + '" class="kl_template_theme kl_fp_theme" rel="' + this +
+            $('.kl_fp_themes').append('<li aria-label="' + this + ' front page theme"><a tabindex ="0" href="#" id="' + this + '" class="kl_template_theme kl_fp_theme" rel="' + this +
                 '" data-tooltip="top" title="' + this +
                 '"><img src="' + klToolsPath + 'images/template_thumbs/' +
                 this + '.png" width="90"></a></li>');
@@ -563,8 +567,6 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
                 $('.kl_banner_section').prop('checked', true).trigger('change');
             }
 
-            console.log("Clicked");
-
             $('.kl_theme_color_pickers').show();
             klInitializeColorPicker('#kl_banner_background', '#kl_banner', 'background-color');
             klInitializeColorPicker('#kl_banner_text', '#kl_banner', 'color');
@@ -580,8 +582,23 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             klInitializeColorPicker('#kl_banner_num_text', '.kl_mod_num', 'color');
             klRemoveTempContent();
         });
-
-
+        
+        /////// Enables user to use keyboard to select themes //////////
+        $('.kl_template_theme').keydown(function (e) {
+            if(e.which == 13){
+                e.preventDefault();
+                this.click();
+            }
+        });
+        // Enables enter button to open color picker
+        //$('.pickerWidth').keydown(function (e){
+          //  console.log("This is great");
+            //if(e.which == 13){
+                //e.preventDefault();
+              //  $('.sp-replacer').click();
+            //}
+       // });
+                
         $('.kl_remove_banner_left').unbind("click").click(function (e) {
             e.preventDefault();
             $(iframeID).contents().find('#kl_banner_left').remove();
@@ -604,11 +621,12 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             $('.kl_custom_theme_options').hide();
             $('.' + activeSection + '_options').show();
         });
-        $('.kl_fp_theme').click(function (e) {
+        $('.kl_fp_theme').unbind("click").click(function (e) {
             e.preventDefault();
             klTemplateCheck();
             klScrollToElement('#kl_wrapper');
             // add the class for the selected template to the kl_wrapper
+            
             templateClass = $(this).attr('rel');
             $(iframeID).contents().find('#kl_wrapper').removeClass().addClass(templateClass);
             if ($('input.kl_banner_image_section').not(':checked')) {
@@ -622,6 +640,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             }
             $(iframeID).contents().find('#kl_banner_image').html('<img src="' + klToolsPath + 'images/banners/' + templateClass + '.jpg">');
         });
+
         $('.kl_highlight_element').mouseover(function () {
             var el = $(this),
                 connectedElement = $(this).attr('rel'),
@@ -636,9 +655,9 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             });
         });
         if ($('a:contains("Template Wizard")').length > 0) {
-            $('.kl_wizard_notice').html('For help creating banner images, Use the <strong>Template Wizard</strong> link.');
+            $('.kl_wizard_notice').html('<div tabindex="0">For help creating banner images, Use the <strong>Template Wizard</strong> link.</div>');
         } else {
-            $('.kl_wizard_notice').html('For help creating banner images, add the Template Wizard App from <a href="/courses/' + coursenum + '/settings" target="_blank">Settings</a> > Navigation.');
+            $('.kl_wizard_notice').html('<div tabindex="0">For help creating banner images, add the Template Wizard App from <a href="/courses/' + coursenum + '/settings" target="_blank">Settings</a> > Navigation.</div>');
         }
 
         klCustomCSSCheck();
@@ -647,7 +666,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 
     ////////// Custom Tools Accordion tab setup  //////  //////
     function klThemeTool() {
-        var themesAccordionSection = '<h3 class="kl_wiki">' +
+        var themesAccordionSection = '<h3 class="kl_wiki" ><span tabindex="0"></span>' +
             '    Themes' +
             '    <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Themes</div>' +
@@ -663,7 +682,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             '       <a aria-label="Customize Themes" href="#" class="btn btn-small" rel="kl_custom_theme">Customize</a>' +
             '    </div>' +
             '    <div class="kl_fp_theme_options" style="display:none">' +
-            '       <h4>Front Page Themes</h4>' +
+            '       <h4 tabindex="0">Front Page Themes</h4>' +
             '       <ul class="unstyled kl_fp_themes">' +
             '       </ul>' +
             '       <div class="kl_instructions_wrapper kl_margin_top_small" style="clear:both;">' +
@@ -671,14 +690,14 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             '       </div>' +
             '    </div>' +
             '    <div class="kl_wiki_theme_options kl_margin_bottom">' +
-            '       <h4>Pages Themes</h4>' +
+            '       <h4 tabindex="0">Pages Themes</h4>' +
             '       <ul class="unstyled kl_wiki_themes">' +
             '       </ul>' +
             '       <a class="btn btn-mini kl_remove_banner_left kl_remove"><i class="icon-end"></i> Remove Unit &amp; Number</a>' +
             '       <a class="btn btn-mini kl_repair_theme" data-tooltip="top" title="This will repair the current theme"><i class="fa fa-wrench"></i> Repair<span class="screenreader-only"> Theme</span></a>' +
             '    </div>' +
             '    <div class="kl_custom_theme_options" style="display:none;">' +
-            '       <h4>Customize Theme Colors</h4>' +
+            '       <h4 tabindex="0">Customize Theme Colors</h4>' +
             '       <table class="table table-striped table-condensed kl_theme_color_pickers"><thead><tr><th>Banner Colors</th><th aria-label="Background Colors">BG</th><th aria-label="Text Colors">Text</th></tr></thead>' +
             '           <tbody>' +
             '               <tr><td>Section</td><td class="pickerWidth"><input type="text" id="kl_banner_background"></td><td class="pickerWidth"><input type="text" id="kl_banner_text"></td></tr>' +
@@ -983,7 +1002,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
         } else {
             sectionTitle = 'Sections';
         }
-        addAccordionSection = '<h3 class="kl_wiki">' + sectionTitle +
+        addAccordionSection = '<h3 class="kl_wiki"><span tabindex="0"></span>' + sectionTitle +
             '     <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '         title="<div class=\'popover-title\'>Content Sections</div>' +
             '         <div class=\'popover-content\'>' +
@@ -1067,9 +1086,9 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 
     ////// Custom Tools Accordion tab setup  //////
     function klAccessibilityTools() {
-        var addAccordionSection = '<h3 class="kl_wiki" style="margin-top: 10px;">' +
+        var addAccordionSection = '<h3 class="kl_wiki" style="margin-top: 10px;"><span tabindex="0"></span>' +
             '   Accessibility Checking' +
-            '       <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
+            '       <a  class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Accessibility Checking Tools</div>' +
             '        <div class=\'popover-content\'>' +
             '            <p>Contains a button to strip all color from the page.</p>' +
@@ -1473,7 +1492,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 
     ////// Custom Tools Accordion tab setup  //////
     function klAccordionTabsTool() {
-        var addAccordionSection = '<h3 class="kl_wiki">' +
+        var addAccordionSection = '<h3 class="kl_wiki"><span tabindex="0"></span>' +
             '   Accordion | Tabs' +
             '       <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Accordion/Tabs Tool</div>' +
@@ -1632,7 +1651,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 
     ////// Custom Tools Accordion tab setup  //////
     function klAdvancedListsTool() {
-        var addAccordionSection = '<h3 class="kl_wiki">' +
+        var addAccordionSection = '<h3 class="kl_wiki"><span tabindex="0"></span>' +
             '    Advanced Lists' +
             '    <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Advanced Lists Tool</div>' +
@@ -1989,7 +2008,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 
     ////// Custom Tools Accordion tab setup  //////
     function klBordersAndSpacingTool() {
-        var toolsAccordionSection = '<h3 class="kl_wiki">' +
+        var toolsAccordionSection = '<h3 class="kl_wiki"><span tabindex="0"></span>' +
             'Borders &amp; Spacing' +
             '    <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Borders and Spacing</div>' +
@@ -2194,7 +2213,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 
     ////// Custom Tools Accordion tab setup  //////
     function klCustomButtons() {
-        var addAccordionSection = '<h3 class="kl_wiki">' +
+        var addAccordionSection = '<h3 class="kl_wiki"><span tabindex="0"></span>' +
             'Buttons' +
             '    <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Buttons</div>' +
@@ -2270,7 +2289,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 
     ////// Custom Tools Accordion tab setup  //////
     function klColors() {
-        var addAccordionSection = '<h3 class="kl_wiki">' +
+        var addAccordionSection = '<h3 class="kl_wiki"><span tabindex="0"></span>' +
             'Colors' +
             '    <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Colors</div>' +
@@ -2418,7 +2437,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 
    ////// Custom Tools Accordion tab setup  //////
     function klCustomHighlights() {
-        var addAccordionSection = '<h3 class="kl_wiki">' +
+        var addAccordionSection = '<h3 class="kl_wiki"><span tabindex="0"></span>' +
             'Highlights | Alerts | Emphasis' +
             '    <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Highlights | Alerts | Emphasis</div>' +
@@ -2519,7 +2538,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 
     ////// Custom Tools Accordion tab setup  //////
     function klImageTools() {
-        var addAccordionSection = '<h3 class="kl_wiki">' +
+        var addAccordionSection = '<h3 class="kl_wiki"><span tabindex="0"></span>' +
             '   Image Layout Tools' +
             '       <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Image Layout Tools</div>' +
@@ -2658,7 +2677,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
         }
     }
     function klNavItems() {
-        var addAccordionSection = '<h3 style="margin-top: 10px;">' +
+        var addAccordionSection = '<h3 style="margin-top: 10px;"><span tabindex="0"></span>' +
             '    Navigation Items' +
             '    <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Navigation Items</div>' +
@@ -2904,7 +2923,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 
     ////// Custom Tools Accordion tab setup  //////
     function klPopupContent() {
-        var addAccordionSection = '<h3 class="kl_wiki">' +
+        var addAccordionSection = '<h3 class="kl_wiki"><span tabindex="0"></span>' +
             'Popup Content | Read More' +
             '    <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Popup Content | Read More</div>' +
@@ -3266,7 +3285,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 
     ////// Custom Tools Accordion tab setup  //////
     function klProgressBar() {
-        var addAccordionSection = '<h3 class="kl_wiki">' +
+        var addAccordionSection = '<h3 class="kl_wiki"><span tabindex="0"></span>' +
             'Progress Bar' +
             '    <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Progress Bar</div>' +
@@ -3504,7 +3523,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 
     ////// Custom Tools Accordion tab setup  //////
     function klQuickCheck() {
-        var quickCheckControls = '<h3 class="kl_wiki">' +
+        var quickCheckControls = '<h3 class="kl_wiki"><span tabindex="0"></span>' +
             'Quick Check' +
             '    <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Quick Check Tool</div>' +
@@ -3598,7 +3617,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 
     ////// Custom Tools Accordion tab setup  //////
     function klSocialMediaTool() {
-        var addAccordionSection = '<h3>' +
+        var addAccordionSection = '<h3><span tabindex="0"></span>' +
             '    Social Media Links' +
             '    <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Social Media Links</div>' +
@@ -3802,7 +3821,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
     }
    ////// Custom Tools Accordion tab setup  //////
     function klCustomTablesSection() {
-        var addAccordionSection = '<h3 class="kl_wiki">' +
+        var addAccordionSection = '<h3 class="kl_wiki"><span tabindex="0"></span>' +
             'Tables' +
             '    <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Custom Tables</div>' +
@@ -4695,7 +4714,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
     }
     ////// Custom Tools Accordion tab setup  //////
     function klModuleListTool() {
-        var addAccordionSection = '<h3>' +
+        var addAccordionSection = '<h3><span tabindex="0"></span>' +
             '    Module List' +
             '    <a class="help pull-right kl_tools_help" data-tooltip=\'{"tooltipClass":"popover right", "position":"right"}\'' +
             '      title="<div class=\'popover-title\'>Module Links</div>' +
@@ -4765,7 +4784,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
 ///////////////////////////////////////////////////////////// 
 
     function klAboutCustomTools() {
-        var addAccordionSection = '<h3 class="kl_wiki" style="margin-top: 10px;">' +
+        var addAccordionSection = '<h3 class="kl_wiki" style="margin-top: 10px;"><span tabindex="0"></span>' +
             '   About Custom Tools' +
             '</h3>' +
             '<div class="kl_instructions">' +

@@ -65,7 +65,7 @@
     replaceInput = [
         "<div class='sp-replacer'>",
             "<div class='sp-preview'><div class='sp-preview-inner'></div></div>",
-            "<div class='sp-dd'>&#9660;</div>",
+            "<div tabindex='0' aria-label='Open Color Picker' class='sp-dd'>&#9660;</div>",
         "</div>"
     ].join(''),
     markup = (function () {
@@ -81,7 +81,7 @@
 
         return [
             "<div class='sp-container sp-hidden'>",
-                "<div class='sp-palette-container'>",
+                "<div tabindex='0' class='sp-palette-container'>",
                     "<div class='sp-palette sp-thumb sp-cf'></div>",
                     "<div class='sp-palette-button-container sp-cf'>",
                         "<button type='button' class='sp-palette-toggle'></button>",
@@ -94,18 +94,18 @@
                             "<div class='sp-color'>",
                                 "<div class='sp-sat'>",
                                     "<div class='sp-val'>",
-                                        "<div class='sp-dragger'></div>",
+                                        "<div tabindex='0' class='sp-dragger'></div>",
                                     "</div>",
                                 "</div>",
                             "</div>",
                             "<div class='sp-clear sp-clear-display'>",
                             "</div>",
                             "<div class='sp-hue'>",
-                                "<div class='sp-slider'></div>",
+                                "<div tabindex='0' class='sp-slider'></div>",
                                 gradientFix,
                             "</div>",
                         "</div>",
-                        "<div class='sp-alpha'><div class='sp-alpha-inner'><div class='sp-alpha-handle'></div></div></div>",
+                        "<div class='sp-alpha'><div class='sp-alpha-inner'><div tabindex='0' class='sp-alpha-handle'></div></div></div>",
                     "</div>",
                     "<div class='sp-input-container sp-cf'>",
                         "<input class='sp-input' type='text' spellcheck='false'  />",
@@ -121,6 +121,7 @@
     })();
 
     function paletteTemplate (p, color, className, opts) {
+
         var html = [];
         for (var i = 0; i < p.length; i++) {
             var current = p[i];
@@ -128,9 +129,10 @@
                 var tiny = tinycolor(current);
                 var c = tiny.toHsl().l < 0.5 ? "sp-thumb-el sp-thumb-dark" : "sp-thumb-el sp-thumb-light";
                 c += (tinycolor.equals(color, current)) ? " sp-thumb-active" : "";
+                c += " color-marker-" +i;
                 var formattedString = tiny.toString(opts.preferredFormat || "rgb");
                 var swatchStyle = rgbaSupport ? ("background-color:" + tiny.toRgbString()) : "filter:" + tiny.toFilter();
-                html.push('<span title="' + formattedString + '" data-color="' + tiny.toRgbString() + '" class="' + c + '"><span class="sp-thumb-inner" style="' + swatchStyle + ';" /></span>');
+                html.push('<span tabindex="0" title="' + formattedString + '" data-color="' + tiny.toRgbString() + '" class="' + c + '"><span class="sp-thumb-inner" style="' + swatchStyle + ';" /></span>');
             } else {
                 var cls = 'sp-clear-display';
                 html.push($('<div />')
@@ -228,6 +230,8 @@
             clickoutFiresChange = !opts.showButtons || opts.clickoutFiresChange,
             isEmpty = !initialColor,
             allowEmpty = opts.allowEmpty && !isInputTypeColor;
+
+            
 
         function applyOptions() {
 
@@ -346,6 +350,7 @@
                 e.preventDefault();
 
                 if (isValid()) {
+                    console.log("Chose Color");
                     updateOriginalInput(true);
                     hide();
                 }
@@ -353,6 +358,7 @@
 
             toggleButton.text(opts.showPaletteOnly ? opts.togglePaletteMoreText : opts.togglePaletteLessText);
             toggleButton.bind("click.spectrum", function (e) {
+                
                 e.stopPropagation();
                 e.preventDefault();
 
@@ -442,7 +448,7 @@
             function paletteElementClick(e) {
                 if (e.data && e.data.ignore) {
                     set($(e.target).closest(".sp-thumb-el").data("color"));
-                    move();
+                    move(); 
                 }
                 else {
                     set($(e.target).closest(".sp-thumb-el").data("color"));
@@ -586,7 +592,6 @@
 
         function show() {
             var event = $.Event('beforeShow.spectrum');
-
             if (visible) {
                 reflow();
                 return;
@@ -617,7 +622,7 @@
         }
 
         function hide(e) {
-
+            //console.log("Hiding palette");
             // Return on right click
             if (e && e.type == "click" && e.button == 2) { return; }
 
@@ -904,6 +909,115 @@
             boundElement.attr("disabled", true);
             offsetElement.addClass("sp-disabled");
         }
+        //open color picker with enter
+        $(replacer).keydown(function (e){
+            console.log("replace down");
+            if(e.which==13){
+                var cnt = container.find(".sp-palette-container");
+                e.preventDefault();
+                this.click();
+                $(cnt).focus();   
+            }
+        });
+
+        //Exit on escape, focus on the picker that opened it when you are done.
+        //Use arrow keys to navigate the colors and sliders
+        var rowLocation = 5;
+        var colorId = 5;
+       
+        function checkIfExsistsAndFocus(rowNum, colorId){
+            var row = false;
+            var col = false;
+            var elName = ".sp-palette-row-" + rowNum
+            var colName = ".color-marker-" + colorId
+            var el = container.find(elName);
+            var color = el.find(colName);
+            console.log(el);
+            if($(el).length > 0){
+                row = true;
+                console.log(rowNum + " " + colorId + " row exsists");
+            }
+            if($(color).length > 0){
+                console.log(rowNum + " " + colorId + " color id exsits");
+                col = true;
+            }
+            if(row && col){
+                $(color).focus();
+                console.log("color should focus");
+            }
+            return row && col;
+        }
+
+        $(container).keydown(function (e){
+            console.log(e.which);
+            var pck = replacer.find(".sp-dd");
+            if(e.which == 27){
+                $(pck).focus();
+                hide();
+                return;
+            } 
+
+            if(e.which == 37){
+                e.preventDefault();
+                
+                if($(alphaSlideHelper).is(":focus")){
+                    if(currentAlpha > 0)
+                    currentAlpha -= .05;
+                    updateUI();
+                } else {
+                    colorId--;
+                    if(!checkIfExsistsAndFocus(rowLocation, colorId)){
+                        colorId=0;
+                    }
+                }
+            }
+
+            if(e.which == 38){
+                e.preventDefault();
+                rowLocation--;
+                if($(slideHelper).is(":focus")){
+                    // move hue slider up
+                }
+                else if($(dragHelper).is(":focus")){
+                    // move gradient dragger up
+                }
+                else (!checkIfExsistsAndFocus(rowLocation, colorId)){
+                    rowLocation=0;
+                }
+            }
+
+            if(e.which == 39){
+                e.preventDefault();
+                 if($(alphaSlideHelper).is(":focus")){
+                    if(currentAlpha < 1)
+                    currentAlpha += .05;
+                    updateUI();
+                } else {
+                colorId++;
+                    if(!checkIfExsistsAndFocus(rowLocation, colorId)){
+                        colorId = colorId -1;
+                    }
+                }
+            }
+
+            if(e.which == 40){
+                e.preventDefault();
+                rowLocation++; 
+                if(!checkIfExsistsAndFocus(rowLocation, colorId)){
+                    rowLocation = rowLocation -1;
+                }
+            }
+
+            if(e.which == 13){
+                if($(toggleButton).is(":focus")){
+                console.log($(':focus'));
+                } else{
+                $(':focus').click();
+                $(pck).focus();
+                }
+            }
+
+        });
 
         initialize();
 
