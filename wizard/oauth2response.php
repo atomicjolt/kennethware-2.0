@@ -11,7 +11,7 @@
 	$context  = stream_context_create($opts);
 	$url = $_SESSION['canvasURL'].'/login/oauth2/token?client_id='.$client_id.'&client_secret='.$clientSecret.'&code='.$_GET['code'];
 	// OPTION 1
-	$userTokenJSON = file_get _contents($url, false, $context, -1, 40000); //ASK CANVAS,	USING DEVELOPER TOKEN, TO RETURN STUDENT TOKEN
+	$userTokenJSON = file_get_contents($url, false, $context, -1, 40000); //ASK CANVAS,	USING DEVELOPER TOKEN, TO RETURN STUDENT TOKEN
 
 	// OPTION 2
     // $runfile = $url;
@@ -24,15 +24,13 @@
 	$userToken = json_decode($userTokenJSON);
 
 	//encrypt token
-	$cryptastic = new cryptastic;
-	$key = $cryptastic->pbkdf2($pass, $salt, 1000, 32);
-	$encrypted_token = $cryptastic->encrypt($userToken->access_token, $key);
+	$encrypted_user_token = $cipher->encrypt($userToken->access_token);
 
 	//store encrypted token in the database
 	$userID=$_SESSION['userID'];
 
 	$result = $dbh->prepare("INSERT INTO tokens VALUES (DEFAULT,?,?,?)");
-	$result->execute(array($userID, $encrypted_token, $_SESSION['apiDomain']));
+	$result->execute(array($userID, $encrypted_user_token, $_SESSION['apiDomain']));
 
 	$_SESSION['allowed'] = true;
 	/*  redirect to main tool page */

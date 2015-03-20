@@ -13,11 +13,9 @@
     //retrieve user token from database
     $result = $dbh->prepare("SELECT encrypted_token FROM tokens WHERE canvas_user_id = ? AND domain = ?");
     $result->execute(array($userID,$domain));
-    $encrypted_token = result->fetch(PG::FETCH_ASSOC)['encrypted_token'];
+    $encrypted_user_token = result->fetch(PDO::FETCH_ASSOC)['encrypted_token'];
     //decrypt token
-    $cryptastic = new cryptastic;
-    $key = $cryptastic->pbkdf2($pass, $salt, 1000, 32);
-    $token = $cryptastic->decrypt($encrypted_token[0]['encrypted_token'], $key);
+    $token = $cipher->decrypt($encrypted_user_token['encrypted_token']);
 
     // This is the header containing the authorization token from Canvas
     $tokenHeader = array("Authorization: Bearer ".$token);
