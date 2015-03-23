@@ -2656,6 +2656,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             klUpdateNavItems();
             klCheckNavCount();
         });
+
     }
     function klActivateNavItemsLink() {
         $('.kl_nav_activate_items').unbind("click").click(function (e) {
@@ -4315,18 +4316,22 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
         function klContentIconList(arrayName) {
             $('#kl_icons').html('');
             $.each(arrayName, function () {
-                $('#kl_icons').append('<a class="kl_icon_change" rel="' + this + '" title="' + this + '"><i class="' + this + '"></i></a> ');
+                $('#kl_icons').append('<a tabindex="0" class="kl_icon_change" rel="' + this + '" title="' + this + '"><i class="' + this + '"></i></a> ');
             });
             $('#kl_icons i').each(function () {
                 if ($(this).hasClass('fa')) {
                     $(this).parent('a').addClass('kl_fa_icon');
                 }
+
             });
+            
+            
+
         }
 
         $.each(iconSections, function (key, value) {
             var displayTitle = key.replace('_', ' ');
-            $('#kl_icon_lists').append('<a class="btn btn-mini ' + key + ' kl_icon_category">' + displayTitle + '</a>');
+            $('#kl_icon_lists').append('<a tabindex = "0" class="btn btn-mini ' + key + ' kl_icon_category">' + displayTitle + '</a>');
             $('.' + key).unbind("click").click(function (e) {
                 e.preventDefault();
                 $('#kl_icons').show();
@@ -4341,6 +4346,12 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
                     $(this).addClass('active');
                 }
                 klChangeIcon();
+            });
+            $('.' + key).keydown(function (e){
+                if(e.which == 13){
+                    e.preventDefault();
+                    $(this).click();
+                }
             });
         });
 

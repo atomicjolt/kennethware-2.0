@@ -909,7 +909,8 @@
             boundElement.attr("disabled", true);
             offsetElement.addClass("sp-disabled");
         }
-        //open color picker with enter
+        
+        //OPEN THE COLOR PICKER WITH ENTER THEN FOCUS ON IT
         $(replacer).keydown(function (e){
             console.log("replace down");
             if(e.which==13){
@@ -920,16 +921,16 @@
             }
         });
 
-        //Exit on escape, focus on the picker that opened it when you are done.
-        //Use arrow keys to navigate the colors and sliders
-        var rowLocation = 5;
-        var colorId = 5;
-       
+        //WHAT ROW AND COLUMN OF COLORS HAS FOCUS
+        var rowLocation = 0;
+        var colorId = 0;
+        
+        //CHECK TO SEE IF THE ROW AND COLUMN THAT WE ARE TRYING TO FOCUS ON EXSITS
         function checkIfExsistsAndFocus(rowNum, colorId){
             var row = false;
             var col = false;
-            var elName = ".sp-palette-row-" + rowNum
-            var colName = ".color-marker-" + colorId
+            var elName = rowNum > 7 ? ".sp-palette-row-selection" : ".sp-palette-row-" + rowNum;
+            var colName = ".color-marker-" + colorId;
             var el = container.find(elName);
             var color = el.find(colName);
             console.log(el);
@@ -948,23 +949,59 @@
             return row && col;
         }
 
+        // 
+        function getColorRow(currentElement){
+
+        }
+
+       //THIS LETS US SKIP ALL OF THE COLORS WITH THE TAB KEY
+
+        function skipColors(rowNum, colorId){
+            var elName = ".sp-palette-row-" + rowNum;
+            var colName = ".color-marker-" + colorId;
+            var el = container.find(elName);
+            var color = el.find(colName);
+            if($(color).is(":focus")){
+                return true;
+            }
+            return false;
+        }
+
+        // A GIGANTIC KEYDOWN FUNCTION THAT ADDS KEYBOARD FUNCTIONALITY TO 
+        // THE COLOR PICKER
         $(container).keydown(function (e){
             console.log(e.which);
             var pck = replacer.find(".sp-dd");
+            
             if(e.which == 27){
                 $(pck).focus();
                 hide();
                 return;
-            } 
+            }
+            if(e.which == 9){
+                
+                if(skipColors(rowLocation, colorId)){
+                    e.preventDefault();
+                    $(toggleButton).focus();
+                }
+            }
 
+            // LEFT KEY
             if(e.which == 37){
                 e.preventDefault();
                 
                 if($(alphaSlideHelper).is(":focus")){
                     if(currentAlpha > 0)
                     currentAlpha -= .05;
-                    updateUI();
-                } else {
+                    move();
+                } 
+                else if($(dragHelper).is(":focus")){
+                    if(currentSaturation > 0)
+                        currentSaturation -= .02;
+                    move();
+                
+                }
+                else {
                     colorId--;
                     if(!checkIfExsistsAndFocus(rowLocation, colorId)){
                         colorId=0;
@@ -972,27 +1009,45 @@
                 }
             }
 
+            // UP KEY
             if(e.which == 38){
                 e.preventDefault();
-                rowLocation--;
+                
                 if($(slideHelper).is(":focus")){
                     // move hue slider up
+                    if(currentHue > 0)
+                        currentHue -= .02;
+                    move();
+
+
                 }
                 else if($(dragHelper).is(":focus")){
-                    // move gradient dragger up
+                    if(currentValue < 1)
+                        currentValue += .02;
+                    move();
                 }
-                else (!checkIfExsistsAndFocus(rowLocation, colorId)){
-                    rowLocation=0;
+                else {
+                    rowLocation--;
+                    if (!checkIfExsistsAndFocus(rowLocation, colorId)){
+                        rowLocation=0;
+                    }
                 }
             }
 
+            // RIGHT KEY
             if(e.which == 39){
                 e.preventDefault();
                  if($(alphaSlideHelper).is(":focus")){
                     if(currentAlpha < 1)
                     currentAlpha += .05;
-                    updateUI();
-                } else {
+                    move();
+                } 
+                else if($(dragHelper).is(":focus")){
+                    if(currentSaturation < 1)
+                        currentSaturation += .02;
+                    move();
+                }
+                else {
                 colorId++;
                     if(!checkIfExsistsAndFocus(rowLocation, colorId)){
                         colorId = colorId -1;
@@ -1000,14 +1055,29 @@
                 }
             }
 
+            // DOWN KEY
             if(e.which == 40){
                 e.preventDefault();
-                rowLocation++; 
-                if(!checkIfExsistsAndFocus(rowLocation, colorId)){
-                    rowLocation = rowLocation -1;
+                 
+                if($(slideHelper).is(":focus")){
+                    if(currentHue <1)
+                        currentHue += .02;
+                    move();
+                }
+                else if($(dragHelper).is(":focus")){
+                    if(currentValue > 0)
+                        currentValue -= .02;
+                   move();
+                }
+                else {
+                    rowLocation++;
+                    if(!checkIfExsistsAndFocus(rowLocation, colorId)){
+                        rowLocation = rowLocation -1;
+                    }
                 }
             }
 
+            // THE ENTER BUTTON
             if(e.which == 13){
                 if($(toggleButton).is(":focus")){
                 console.log($(':focus'));
@@ -1016,7 +1086,6 @@
                 $(pck).focus();
                 }
             }
-
         });
 
         initialize();
