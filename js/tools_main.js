@@ -1699,8 +1699,8 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             '        <div class="btn-group-label kl_margin_bottom">' +
             '            <span>Nested List </span>'+
             '                <div class="btn-group">' +
-            '                <a class="btn btn-mini kl_outdent_list" data-tooltip="top" title="Outdent list one level"><i class="icon-outdent2"></i> Outdent</a>' +
-            '                <a class="btn btn-mini kl_indent_list" data-tooltip="top" title="Indent list one level"><i class="icon-indent2"></i> Indent</a>' +
+            '                <a tabindex="0" class="btn btn-mini kl_outdent_list" data-tooltip="top" title="Outdent list one level"><i class="icon-outdent2"></i> Outdent</a>' +
+            '                <a tabindex="0" class="btn btn-mini kl_indent_list" data-tooltip="top" title="Indent list one level"><i class="icon-indent2"></i> Indent</a>' +
             '            </div>' +
             '        </div>' +            
             '       <div class="btn-group-label kl_margin_bottom">' +
@@ -4113,6 +4113,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
                 while (child) {
                     if (child.nodeName.toLowerCase() === 'li') {
                         // Get the class(es) from the child element
+                        
                         tinyMCE.DOM.removeClass(child, 'fa');
                         currentClass = tinyMCE.DOM.getAttrib(child, 'class');
                         // Look through the classes for any class beginning with "icon-" and remove it
@@ -4129,10 +4130,11 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
                         newClass = newClass.trim();
                         tinyMCE.DOM.setAttrib(child, 'class', newClass);
                     }
+                    
                     child = child.nextSibling;
                 }
             } else {
-                console.log('element');
+                console.log(this);
                 // Get parent element
                 parentElement = tinyMCE.DOM.getParent(tinyMCE.activeEditor.selection.getNode(), 'span#kl_banner_right, h3, h4, h5, h6, a, li');
                 // Get the class(es) from the parent element
@@ -4151,8 +4153,19 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
                 // Clean up extra spaces and add to parent
                 newClass = newClass.trim();
                 tinyMCE.DOM.setAttrib(parentElement, 'class', newClass);
+                console.log("looping here");
+            }
+
+        });
+        
+        $('.kl_icon_change').unbind("keydown").keydown(function (e){
+            if(e.which == 13){
+                e.preventDefault();
+                console.log("I am being called");
+                $(':focus').click();
             }
         });
+         
     }
     ////// Custom Tools Accordion tab setup  //////
     function klContentIcons() {
@@ -4317,22 +4330,23 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             $('#kl_icons').html('');
             $.each(arrayName, function () {
                 $('#kl_icons').append('<a tabindex="0" class="kl_icon_change" rel="' + this + '" title="' + this + '"><i class="' + this + '"></i></a> ');
+                console.log("I GET CALLED TOO");
             });
             $('#kl_icons i').each(function () {
+                console.log("I AM THE LAST TO GET CALLED");
                 if ($(this).hasClass('fa')) {
                     $(this).parent('a').addClass('kl_fa_icon');
                 }
 
             });
-            
-            
-
         }
 
         $.each(iconSections, function (key, value) {
             var displayTitle = key.replace('_', ' ');
+            
             $('#kl_icon_lists').append('<a tabindex = "0" class="btn btn-mini ' + key + ' kl_icon_category">' + displayTitle + '</a>');
             $('.' + key).unbind("click").click(function (e) {
+
                 e.preventDefault();
                 $('#kl_icons').show();
                 if ($(this).hasClass('active')) {
@@ -4347,10 +4361,10 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
                 }
                 klChangeIcon();
             });
-            $('.' + key).keydown(function (e){
+            $('.' + key).unbind("keydown").keydown(function (e){
                 if(e.which == 13){
                     e.preventDefault();
-                    $(this).click();
+                    $('.' + key).click();
                 }
             });
         });
@@ -5076,7 +5090,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
         var sectionTitle, addAccordionSection, sectionList;
         sectionTitle = sectionParent.replace('kl_syllabus_', '').replace('_', ' ');
         addAccordionSection = '<h3>' + sectionTitle +
-            '        <a class="help pull-right kl_tools_help element_toggler" aria-controls="' + sectionParent + '_dialog" data-tooltip="left" title="Click to display ' + sectionTitle + ' help.">' +
+            '        <span aria-label="'+ sectionTitle +'" tabindex="0"></span><a class="help pull-right kl_tools_help element_toggler" aria-controls="' + sectionParent + '_dialog" data-tooltip="left" title="Click to display ' + sectionTitle + ' help.">' +
             '            &nbsp;<span class="screenreader-only">About ' + sectionTitle + '.</span>' +
             '        </a>' +
             '        </h3>' +
