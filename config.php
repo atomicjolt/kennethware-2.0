@@ -17,9 +17,10 @@
   $dbType = getenv("DB_TYPE");
   $dbName = getenv("DB_NAME");
   $dbHost = getenv("DB_HOST");
+  $dbPort = getenv("DB_PORT");
   $dbUser = getenv("DB_USER");
   $dbPass = getenv("DB_PASS");
-  $dsn = "$dbType:dbname=$dbName;host=$dbHost;user=$dbUser;password=$dbPass";
+  $dsn = "$dbType:dbname=$dbName;host=$dbHost;port=$dbPort;user=$dbUser;password=$dbPass";
   $dbh = new PDO($dsn);
 
 
