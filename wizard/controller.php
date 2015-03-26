@@ -55,6 +55,7 @@
 			header('Location: '.$_SESSION["template_wizard_url"].'/index.php');
 		}
 	} else {
+		echo ($context->message."<br>");
 		echo $oauth_error_message;
 	}
 ?>
