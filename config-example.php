@@ -7,21 +7,24 @@
 	/* TEMPLATE WIZARD CONFIG  */
 	/***************************/
 	// The URL for where the "wizard" folder is located
-	$user_id = explode(".", $_SERVER['HTTP_HOST'], 2)[0];
-	$_SESSION['template_wizard_url'] = 'https://<path to wizard>/wizard';
+	$code = explode(".", $_SERVER['HTTP_HOST'], 2)[0];
+
+	$_SESSION['template_wizard_url'] = $_SERVER['DOCUMENT_ROOT'].'/wizard';
 	require_once __DIR__.'/wizard/resources/blti.php';
 	require_once __DIR__.'/wizard/resources/cryptastic.php';
-	require_once($_SERVER['DOCUMENT_ROOT'].'/kennethware-2.0/vendor/phpseclib/phpseclib/phpseclib/Crypt/AES.php');
+	require_once($_SERVER['DOCUMENT_ROOT'].'/vendor/phpseclib/phpseclib/phpseclib/Crypt/AES.php');
 
-  $dbType = "pgsql";
-  $dbName = "unizin_manager_development";
-  $dbHost = "127.0.0.1";
-  $dbPass = "";
-  $dsn = "$dbType:dbname=$dbName;host=$dbHost;password=$dbPass";
+	$dbType = getenv("DB_TYPE");
+	$dbName = getenv("DB_NAME");
+	$dbHost = getenv("DB_HOST");
+	$dbPort = getenv("DB_PORT");
+	$dbUser = getenv("DB_USER");
+	$dbPass = getenv("DB_PASS");
+	$dsn = "$dbType:dbname=$dbName;host=$dbHost;port=$dbPort;user=$dbUser;password=$dbPass";
   $dbh = new PDO($dsn);
 
-  $result = $dbh->prepare('SELECT * FROM accounts WHERE id = ?');
-  $result->execute(array($user_id));
+  $result = $dbh->prepare('SELECT * FROM accounts WHERE code = ?');
+  $result->execute(array($code));
 
   $account = $result->fetch(PDO::FETCH_OBJ);
 
@@ -30,8 +33,8 @@
 	$pass = $account->pass;
 
 	// Your Canvas OAuth2 Developer information. Used for getting OAuth tokens from users
-	$client_id = '#####';
-	$clientSecret = '######';
+	$client_id = getenv("CLIENT_ID");
+	$clientSecret = getenv("CLIENT_SECRET");
 
 	// The Shared Secret you use when setting up the Template Wizard LTI tool
 	$lti_secret = $account->lti_secret;
@@ -41,12 +44,15 @@
 
 	// TEMPLATE ARRAY (templateName, minWidth,minHeight, ratioX,ratioY)
 	// This array is for customizing banner images for template themes
-	$templates = array (
-		array('kl_fp_horizontal_nav_2', 1050,312, 215,64),
-		array('kl_fp_panel_nav_2', 	1050,312,  215,64),
-		array('kl_fp_squares_1x1', 320,320,  1,1),
-		array('kl_fp_circles_1x1', 320,320,  1,1)
-	);
+	$result = $dbh->prepare('SELECT * FROM front_page_themes WHERE account_id = ?');
+	$result->execute(array(0));
+
+	$templates = array();
+	while($row = $result->fetch())
+	{
+		$templates[] = $row;
+	}
+
 	// RATIO ARRAY (ratioX, ratioY)
 	$ratios = array (
 		array (1,1),
