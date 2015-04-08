@@ -457,10 +457,11 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
     // Output themes
     function klOutputFrontPageThemes(themeArray) {
         $.each(themeArray, function () {
-            $('.kl_fp_themes').append('<li aria-label="' + this + ' front page theme"><a tabindex ="0" href="#" id="' + this + '" class="kl_template_theme kl_fp_theme" rel="' + this +
-                '" data-tooltip="top" title="' + this +
+            var setting = this[0];
+            $('.kl_fp_themes').append('<li aria-label="' + setting + ' front page theme"><a tabindex ="0" href="#" id="' + setting + '" class="kl_template_theme kl_fp_theme" rel="' + setting +
+                '" data-tooltip="top" title="' + setting +
                 '"><img src="' + klToolsPath + 'images/template_thumbs/' +
-                this + '.png" width="90"></a></li>');
+                setting + '.png" width="90"></a></li>');
         });
     }
 

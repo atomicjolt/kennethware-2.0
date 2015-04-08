@@ -47,12 +47,12 @@ var klToolsVariables = {
     // To add a theme, add the class here and add a thumbnail to the <toolspath>/images/template_thumbs folder 
     // Frontpage thumbnails approx 225px X 106px
     klFrontPageThemeArray: [
-        'kl_fp_horizontal_nav_2',
-        'kl_fp_panel_nav_2',
-        'kl_fp_squares_1x1',
-        'kl_fp_flat_sections',
-        'kl_fp_colored_headings',
-        'kl_fp_circles_1x1'
+        ['kl_fp_horizontal_nav_2', 1050,312, 215,64],
+        ['kl_fp_panel_nav_2', 1050,312,  215,64],
+        ['kl_fp_squares_1x1', 320,320,  1,1],
+        ['kl_fp_flat_sections', 225,225, 1,1],
+        ['kl_fp_colored_headings', 200,200, 1,1],
+        ['kl_fp_circles_1x1, 320,320,  1,1]'
     ],
     // To add a theme, add the class here and add a thumbnail to the <toolspath>/images/template_thumbs folder 
     // WikiPage thumbnails approx 116px x 116px
