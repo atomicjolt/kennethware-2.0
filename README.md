@@ -15,3 +15,19 @@ php composer.phar install
 
 If you make changes to composer.json:
 php composer.phar update
+
+Environment Vars
+================
+The database type is the DSN prefix. Use mysql for mysql, sqlite for sqlite, pgsql for postgresql, etc.
+Run the following command on a php page to get what is available on your system.
+var_dump(PDO::getAvailableDrivers());
+
+export DB_TYPE="put your db type here"
+export DB_NAME="put your db name here"
+export DB_HOST="put your db host here"
+export DB_PORT="put your db port here"
+export DB_USER="put your db user here"
+export DB_PASS="put your db password here"
+export CLIENT_ID="put your canvas id here"
+export CLIENT_SECRET="put your canvas secret here"
+export ENCRYPTION_KEY="put your encryption key here" #This should be the same as the encryption key used to encrypt the apiToken.
