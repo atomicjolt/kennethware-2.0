@@ -23,7 +23,8 @@
   $dsn = "$dbType:dbname=$dbName;host=$dbHost;port=$dbPort;user=$dbUser;password=$dbPass";
   $dbh = new PDO($dsn);
 
-
+  $assets_server = getenv("ASSETS_SERVER");
+	$main_css = $assets_server . "/" . $code . "/main.css";
 
   $result = $dbh->prepare('SELECT * FROM accounts WHERE code = ?');
   $result->execute(array($code));

@@ -31,3 +31,4 @@ export DB_PASS="put your db password here"
 export CLIENT_ID="put your canvas id here"
 export CLIENT_SECRET="put your canvas secret here"
 export ENCRYPTION_KEY="put your encryption key here" #This should be the same as the encryption key used to encrypt the apiToken.
+export ASSETS_SERVER="https://assets.lmstools.org"

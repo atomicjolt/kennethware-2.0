@@ -29,7 +29,7 @@
 	<!-- <link rel="stylesheet" href="css/imageCropStyles.css" type="text/css" /> -->
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="css/main.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $main_css ?>" type="text/css" />
 </head>
 <body>
 	<h2><i class="fa fa-picture-o"></i> Image Tools <small><i class="fa fa-magic"></i> Wizard Tools</small></h2>

@@ -26,7 +26,7 @@ http://www.gnu.org/licenses/agpl-3.0.html -->
 	<title>Template Wizard</title>
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="resources/css/main.css">
+	<link rel="stylesheet" href="<?php echo $main_css ?>">
 	<script type="text/javascript" language="javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 </head>
 <body>
