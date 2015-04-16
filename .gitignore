@@ -12,3 +12,5 @@ wizard/devWizardLTI.xml
 vendor/
 
 .DS_Store
+
+composer.phar
