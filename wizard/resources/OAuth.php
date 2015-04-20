@@ -258,10 +258,16 @@ class OAuthRequest {
     $scheme = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on")
               ? 'http'
               : 'https';
+
+    $port = '';
+    if(!($_SERVER['SERVER_PORT'] == '80' || $_SERVER['SERVER_PORT'] == '443')){
+      $port = $_SERVER['SERVER_PORT'];
+    }
+              
     $http_url = ($http_url) ? $http_url : $scheme .
                               '://' . $_SERVER['HTTP_HOST'] .
                               ':' .
-                              $_SERVER['SERVER_PORT'] .
+                              $port .
                               $_SERVER['REQUEST_URI'];
     $http_method = ($http_method) ? $http_method : $_SERVER['REQUEST_METHOD'];
 
