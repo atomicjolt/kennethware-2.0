@@ -103,7 +103,7 @@ class BLTI {
             $server->verify_request($request);
             $this->valid = true;
         } catch (Exception $e) {
-            $this->message = $e->getMessage() . '<br /> Base String: <br />' . $this->basestring;
+            $this->message = $e->getMessage();
             return;
         }
 
