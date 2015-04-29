@@ -11,11 +11,13 @@
     $domain = $_SESSION['apiDomain'];
 
     //retrieve user token from database
-    $result = $dbh->prepare("SELECT encrypted_token FROM tokens WHERE canvas_user_id = ? AND domain = ?");
-    $result->execute(array($userID,$domain));
-    $encrypted_user_token = $result->fetch(PDO::FETCH_ASSOC)['encrypted_token'];
+    $dbCall = $dbh->prepare("SELECT encrypted_token FROM tokens WHERE canvas_user_id = ? AND domain = ?");
+    $dbCall->execute(array($userID,$domain));
+    
+    $encrypted_user_token = $dbCall->fetch(PDO::FETCH_ASSOC)['encrypted_token'];
+    
     //decrypt token
-    $token = $cipher->decrypt($encrypted_user_token['encrypted_token']);
+    $token = $cipher->decrypt($encrypted_user_token);
 
     // This is the header containing the authorization token from Canvas
     $tokenHeader = array("Authorization: Bearer ".$token);

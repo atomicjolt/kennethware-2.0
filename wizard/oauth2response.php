@@ -29,11 +29,18 @@
 	//store encrypted token in the database
 	$userID=$_SESSION['userID'];
 
-	$result = $dbh->prepare("INSERT INTO tokens VALUES (DEFAULT,?,?,?)");
-	$result->execute(array($userID, $encrypted_user_token, $_SESSION['apiDomain']));
+	$dbCall = $dbh->prepare("INSERT INTO tokens VALUES (DEFAULT,?,?,?)");
+	$result = $dbCall->execute(array($userID, utf8_encode($encrypted_user_token), $_SESSION['apiDomain']));
+
+  // Use when debugging datbase call
+  // if(!$result){
+  //   echo("Database call error: <br />");
+  //   echo(serialize($dbCall->errorInfo()));
+  //   echo("<br />");
+  // }
 
 	$_SESSION['allowed'] = true;
 	/*  redirect to main tool page */
-	header('Location: '.$_SESSION["template_wizard_url"].'/index.php');
+  header('Location: '.$_SESSION["template_wizard_url"].'/index.php');
 
 ?>
