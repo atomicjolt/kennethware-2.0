@@ -9,7 +9,9 @@
 	// The URL for where the "wizard" folder is located
 	$code = explode(".", $_SERVER['HTTP_HOST'], 2)[0];
 
-	$_SESSION['template_wizard_url'] = $_SERVER['DOCUMENT_ROOT'].'/wizard';
+	//$_SESSION['template_wizard_url'] = $_SERVER['DOCUMENT_ROOT'].'/wizard';
+	$_SESSION['template_wizard_url'] = "https://" . $_SERVER['HTTP_HOST'] . '/wizard';
+
 	require_once __DIR__.'/wizard/resources/blti.php';
 	require_once __DIR__.'/wizard/resources/cryptastic.php';
 	require_once($_SERVER['DOCUMENT_ROOT'].'/vendor/phpseclib/phpseclib/phpseclib/Crypt/AES.php');
