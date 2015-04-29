@@ -255,18 +255,17 @@ class OAuthRequest {
    * attempt to build up a request from what was passed to the server
    */
   public static function from_request($http_method=NULL, $http_url=NULL, $parameters=NULL) {
-    $scheme = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on")
-              ? 'http'
-              : 'https';
+    $scheme = ($_SERVER['HTTPS'] == "on" || $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https")
+              ? 'https'
+              : 'http';
 
     $port = '';
     if(!($_SERVER['SERVER_PORT'] == '80' || $_SERVER['SERVER_PORT'] == '443')){
-      $port = $_SERVER['SERVER_PORT'];
+      $port = ":" . $_SERVER['SERVER_PORT'];
     }
               
     $http_url = ($http_url) ? $http_url : $scheme .
                               '://' . $_SERVER['HTTP_HOST'] .
-                              ':' .
                               $port .
                               $_SERVER['REQUEST_URI'];
     $http_method = ($http_method) ? $http_method : $_SERVER['REQUEST_METHOD'];
