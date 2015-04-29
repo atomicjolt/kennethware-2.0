@@ -13,7 +13,7 @@
     //retrieve user token from database
     $result = $dbh->prepare("SELECT encrypted_token FROM tokens WHERE canvas_user_id = ? AND domain = ?");
     $result->execute(array($userID,$domain));
-    $encrypted_user_token = result->fetch(PDO::FETCH_ASSOC)['encrypted_token'];
+    $encrypted_user_token = $result->fetch(PDO::FETCH_ASSOC)['encrypted_token'];
     //decrypt token
     $token = $cipher->decrypt($encrypted_user_token['encrypted_token']);
 
