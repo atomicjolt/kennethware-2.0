@@ -50,7 +50,7 @@
 		if ($generateToken == true) {
 			echo 'Generate Token';
 			// if not, redirect to canvas permission page
-			header('Location: '.$_SESSION['canvasURL'].'/login/oauth2/auth?client_id='.$client_id.'&response_type=code&redirect_uri='.$_SESSION["template_wizard_url"].'/oauth2response.php');
+			header('Location: '.$_SESSION['canvasURL'].'/login/oauth2/auth?client_id='.$client_id.'&response_type=code&redirect_uri='. urlencode($_SESSION["template_wizard_url"] . '/oauth2response.php') );
 		} else {
 			header('Location: '.$_SESSION["template_wizard_url"].'/index.php');
 		}
