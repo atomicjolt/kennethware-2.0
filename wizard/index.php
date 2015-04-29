@@ -13,10 +13,10 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Affero General Public License for more details.
 http://www.gnu.org/licenses/agpl-3.0.html -->
 <?php 
-	// Display any php errors (for development purposes)
+	session_start();
+	// Display any php errors (for development purposes)	
 	error_reporting(E_ALL);
 	ini_set('display_errors', '1');
-	session_start();
 	require_once (__DIR__.'/../config.php');
 	require_once 'resources/wizardAPI.php';
 ?>
