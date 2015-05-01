@@ -10,6 +10,7 @@
   $code = explode(".", $_SERVER['HTTP_HOST'], 2)[0];
 
   $_SESSION['template_wizard_url'] = "https://" . $_SERVER['HTTP_HOST'] . '/wizard';
+  
   require_once __DIR__.'/wizard/resources/blti.php';
   require_once __DIR__.'/wizard/resources/cryptastic.php';
   require_once($_SERVER['DOCUMENT_ROOT'].'/vendor/phpseclib/phpseclib/phpseclib/Crypt/AES.php');
@@ -21,11 +22,9 @@
   $dbUser = getenv("DB_USER");
   $dbPass = getenv("DB_PASS");
   $dsn = "$dbType:dbname=$dbName;host=$dbHost;port=$dbPort;user=$dbUser;password=$dbPass";
-  $dsn = "pgsql:dbname=unizin_manager_development;host=localhost;";
   $dbh = new PDO($dsn);
 
   $assets_server = getenv("ASSETS_SERVER");
-  $assets_server = "assets.lmstools.org";
   $main_css = $assets_server . "/" . $code . "/main.css";
 
   $result = $dbh->prepare('SELECT * FROM accounts WHERE code = ?');
@@ -41,10 +40,6 @@
   $client_id = getenv("CLIENT_ID");
   $clientSecret = getenv("CLIENT_SECRET");
 
-  // Associated with *.unizintools.org
-  $client_id = '170000000000254';
-  $clientSecret = 'tOUj8yshzg08Y5LlSz3gHXcdjPUAggLrljqae5I2NqasqW1QGvZLzVcFfjf6RYBo';
-  
   // The Shared Secret you use when setting up the Template Wizard LTI tool
   $lti_secret = $account->lti_secret;
   
@@ -82,7 +77,6 @@
   //Decrypt the canvas token in the account manager
   $encrypted_token = base64_decode($account->encrypted_canvas_token);
   $encryption_key = getenv("ENCRYPTION_KEY");
-  $encryption_key = "8f62a8de50ad23294da5e12c7ec3ac980b6b19cb6e9468d359a2d64ab7abdc4b6079d75766a530adf271c3e96bd12dbe38dc308eed21610de98df6af80383bf9";
   $salt = $account->encrypted_canvas_token_salt;
   $iv = base64_decode($account->encrypted_canvas_token_iv);
 

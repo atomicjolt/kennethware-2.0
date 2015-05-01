@@ -25,6 +25,9 @@
 	$dsn = "$dbType:dbname=$dbName;host=$dbHost;port=$dbPort;user=$dbUser;password=$dbPass";
   $dbh = new PDO($dsn);
 
+	$assets_server = getenv("ASSETS_SERVER");
+  $main_css = $assets_server . "/" . $code . "/main.css";
+
   $result = $dbh->prepare('SELECT * FROM accounts WHERE code = ?');
   $result->execute(array($code));
 
@@ -47,7 +50,7 @@
 	// TEMPLATE ARRAY (templateName, minWidth,minHeight, ratioX,ratioY)
 	// This array is for customizing banner images for template themes
 	$result = $dbh->prepare('SELECT * FROM front_page_themes WHERE account_id = ?');
-	$result->execute(array(0));
+	$result->execute(array($account->id));
 
 	$templates = array();
 	while($row = $result->fetch())

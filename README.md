@@ -32,3 +32,44 @@ export CLIENT_ID="put your canvas id here"
 export CLIENT_SECRET="put your canvas secret here"
 export ENCRYPTION_KEY="put your encryption key here" #This should be the same as the encryption key used to encrypt the apiToken.
 export ASSETS_SERVER="https://assets.lmstools.org"
+
+
+Environment Vars with MAMP
+================
+
+On a Mac create an environment variables file here:
+
+/Applications/MAMP/Library/bin/envvars
+
+Copy and paste the following into that file changing values to match your configuration
+
+# Client id and secret obtained from Instructure. (Get these values from: https://docs.google.com/forms/d/1C5vOpWHAAl-cltj2944-NM0w16AiCvKQFJae3euwwM8/viewform)
+CLIENT_ID = "17000000000xxxx"
+CLIENT_SECRET = "it's a secret"
+
+ENCRYPTION_KEY = "Generate an encryption key"
+
+# Change this to the domain that will be serving global.js and global.css
+ASSETS_SERVER = "assets.lmstools.org"
+
+DB_TYPE = "pgsql"
+DB_NAME = "unizin_manager_development"
+DB_HOST = "localhost"
+DB_PORT = ""
+DB_USER = ""
+DB_PASS = ""
+
+# export environment values
+export CLIENT_ID
+export CLIENT_SECRET
+
+export ENCRYPTION_KEY
+
+export ASSETS_SERVER
+
+export DB_TYPE
+export DB_NAME
+export DB_HOST
+export DB_PORT
+export DB_USER
+export DB_PASS
