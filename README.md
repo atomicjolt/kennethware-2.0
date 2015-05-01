@@ -37,39 +37,24 @@ export ASSETS_SERVER="https://assets.lmstools.org"
 Environment Vars with MAMP
 ================
 
-On a Mac create an environment variables file here:
+Edit the Apache environment variables file here (Mac):
 
-/Applications/MAMP/Library/bin/envvars
+/Applications/MAMP/conf/apache/httpd.conf
 
 Copy and paste the following into that file changing values to match your configuration
 
 # Client id and secret obtained from Instructure. (Get these values from: https://docs.google.com/forms/d/1C5vOpWHAAl-cltj2944-NM0w16AiCvKQFJae3euwwM8/viewform)
-CLIENT_ID = "17000000000xxxx"
-CLIENT_SECRET = "it's a secret"
+SetEnv CLIENT_ID "17000000000xxxx"
+SetEnv CLIENT_SECRET "it's a secret" 
 
-ENCRYPTION_KEY = "Generate an encryption key"
+SetEnv ENCRYPTION_KEY "Generate an encryption key" 
 
 # Change this to the domain that will be serving global.js and global.css
-ASSETS_SERVER = "assets.lmstools.org"
+SetEnv ASSETS_SERVER "assets.lmstools.org" 
 
-DB_TYPE = "pgsql"
-DB_NAME = "unizin_manager_development"
-DB_HOST = "localhost"
-DB_PORT = ""
-DB_USER = ""
-DB_PASS = ""
-
-# export environment values
-export CLIENT_ID
-export CLIENT_SECRET
-
-export ENCRYPTION_KEY
-
-export ASSETS_SERVER
-
-export DB_TYPE
-export DB_NAME
-export DB_HOST
-export DB_PORT
-export DB_USER
-export DB_PASS
+SetEnv DB_TYPE "pgsql"
+SetEnv DB_NAME "unizin_manager_development"
+SetEnv DB_HOST "localhost"
+SetEnv DB_PORT ""
+SetEnv DB_USER ""
+SetEnv DB_PASS ""

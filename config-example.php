@@ -19,11 +19,22 @@
 	$dbType = getenv("DB_TYPE");
 	$dbName = getenv("DB_NAME");
 	$dbHost = getenv("DB_HOST");
-	$dbPort = getenv("DB_PORT");
-	$dbUser = getenv("DB_USER");
-	$dbPass = getenv("DB_PASS");
-	$dsn = "$dbType:dbname=$dbName;host=$dbHost;port=$dbPort;user=$dbUser;password=$dbPass";
-  $dbh = new PDO($dsn);
+
+	$dsn = "$dbType:dbname=$dbName;host=$dbHost";
+  
+  if($dbPort = getenv("DB_PORT")){
+    $dsn = $dsn . ";port=$dbPort";
+  }
+
+  if($dbPort = getenv("DB_USER")){
+    $dsn = $dsn . ";user=$dbUser";
+  }
+
+  if($dbPort = getenv("DB_PASS")){
+    $dsn = $dsn . ";password=$dbPass";
+  }
+
+	$dbh = new PDO($dsn);
 
 	$assets_server = getenv("ASSETS_SERVER");
   $main_css = $assets_server . "/" . $code . "/main.css";
