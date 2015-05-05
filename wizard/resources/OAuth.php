@@ -304,7 +304,7 @@ class OAuthRequest {
       }
 
     }
-
+echo($http_url);
     return new OAuthRequest($http_method, $http_url, $parameters);
   }
 
