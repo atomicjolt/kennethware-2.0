@@ -255,7 +255,7 @@ class OAuthRequest {
    * attempt to build up a request from what was passed to the server
    */
   public static function from_request($http_method=NULL, $http_url=NULL, $parameters=NULL) {
-    $scheme = ($_SERVER['HTTPS'] == "on" || $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https")
+    $scheme = ($_SERVER['HTTPS'] == "on" || $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https" || getenv("FORCE_SSL_ON"))
               ? 'https'
               : 'http';
 
