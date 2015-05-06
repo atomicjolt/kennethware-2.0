@@ -25,11 +25,11 @@
     $dsn = $dsn . ";port=$dbPort";
   }
 
-  if($dbPort = getenv("DB_USER")){
+  if($dbUser = getenv("DB_USER")){
     $dsn = $dsn . ";user=$dbUser";
   }
 
-  if($dbPort = getenv("DB_PASS")){
+  if($dbPass = getenv("DB_PASS")){
     $dsn = $dsn . ";password=$dbPass";
   }
 
