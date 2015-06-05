@@ -7,16 +7,19 @@
 
     //Set variables
     $courseID = $_SESSION['courseID'] ;
+    error_log('$courseID: ' . $courseID);
     $userID = $_SESSION['userID'];
+    error_log('$userID: ' . $userID);
     $domain = $_SESSION['apiDomain'];
+    error_log('$domain: ' . $domain);
 
     //retrieve user token from database
     $dbCall = $dbh->prepare("SELECT encrypted_token FROM tokens WHERE canvas_user_id = ? AND domain = ?");
     $dbCall->execute(array($userID,$domain));
-    
+
     $encrypted_user_token = $dbCall->fetch(PDO::FETCH_ASSOC)['encrypted_token'];
     $encrypted_user_token = utf8_decode($encrypted_user_token);
-    
+
     //decrypt token
     $token = $cipher->decrypt($encrypted_user_token);
 
@@ -58,6 +61,10 @@
             }
         }
         function curlGet($url) {
+            error_log("wizardAPI curlGet - $url:")
+            error_log( var_export($url, true) );
+            error_log("wizardAPI curlGet - $GLOBALS['tokenHeader']:")
+            error_log( var_export($GLOBALS['tokenHeader'], true) );
             global $token;
             $ch = curl_init($url);
             curl_setopt ($ch, CURLOPT_URL, $_SESSION['canvasURL'].'/api/v1/'.$url);
@@ -66,7 +73,8 @@
             curl_setopt($ch, CURLOPT_VERBOSE, 1); //Requires to load headers
             curl_setopt($ch, CURLOPT_HEADER, 1);  //Requires to load headers
             $result = curl_exec($ch);
-            // var_dump($result);
+            error_log("wizardAPI curlGet - $result:")
+            error_log( var_export($result, true) );
 
             #Parse header information from body response
             $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
@@ -91,8 +99,12 @@
                 $next_link = str_replace($_SESSION['canvasURL'].'/api/v1/', '', $links['next']);
                 $next_data = curlGet($next_link);
                 $data = array_merge($data,$next_data);
+                error_log("wizardAPI curlGet (if pagination) - $data:")
+                error_log( var_export($data, true) );
                 return $data;
             }else{
+                error_log("wizardAPI curlGet (else) - $data:")
+                error_log( var_export($data, true) );
                 return $data;
             }
         }
