@@ -10,9 +10,9 @@
 
 	// the following functions run the GET calls
 	function curlGet($url) {
-		error_log("canvasAPI curlGet - $url:");
+		error_log("canvasAPI curlGet - url:");
 		error_log( var_export($url, true) );
-		error_log("canvasAPI curlGet - $GLOBALS['tokenHeader']:");
+		error_log("canvasAPI curlGet - GLOBALS[tokenHeader]:");
 		error_log( var_export($GLOBALS['tokenHeader'], true) );
 		$ch = curl_init($url);
 		curl_setopt ($ch, CURLOPT_URL, $GLOBALS['canvasDomain'].'/api/v1/'.$url);
@@ -22,7 +22,7 @@
 
 		// Send to remote and return data to caller.
 		$response = curl_exec($ch);
-		error_log("canvasAPI curlGet - $data:");
+		error_log("canvasAPI curlGet - data:");
 		error_log( var_export($data, true) );
 		curl_close($ch);
 		return $response;

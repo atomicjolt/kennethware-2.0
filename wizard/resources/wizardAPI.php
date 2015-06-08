@@ -61,9 +61,9 @@
             }
         }
         function curlGet($url) {
-            error_log("wizardAPI curlGet - $url:");
+            error_log("wizardAPI curlGet - url:");
             error_log( var_export($url, true) );
-            error_log("wizardAPI curlGet - $GLOBALS['tokenHeader']:");
+            error_log("wizardAPI curlGet - GLOBALS[tokenHeader]:");
             error_log( var_export($GLOBALS['tokenHeader'], true) );
             global $token;
             $ch = curl_init($url);
@@ -99,11 +99,11 @@
                 $next_link = str_replace($_SESSION['canvasURL'].'/api/v1/', '', $links['next']);
                 $next_data = curlGet($next_link);
                 $data = array_merge($data,$next_data);
-                error_log("wizardAPI curlGet (if pagination) - $data:");
+                error_log("wizardAPI curlGet (if pagination) - data:");
                 error_log( var_export($data, true) );
                 return $data;
             }else{
-                error_log("wizardAPI curlGet (else) - $data:");
+                error_log("wizardAPI curlGet (else) - data:");
                 error_log( var_export($data, true) );
                 return $data;
             }
