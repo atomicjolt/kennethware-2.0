@@ -185,7 +185,7 @@
             return $response;
         }
         function getCourse($courseID){
-            $apiUrl = "courses/".$courseID."?include[]=term";
+            $apiUrl = "courses/".$courseID."?include[]=terms";
             $response = curlGet($apiUrl);
             return $response;
         }
