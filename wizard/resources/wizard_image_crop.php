@@ -114,6 +114,8 @@
 			  	if ($_FILES["file"]["error"] > 0) {
 			    	echo 'Return Code: ' . $_FILES["file"]["error"] . '<br>';
 			    } else {
+			    	move_uploaded_file($_FILES["file"]["tmp_name"],
+					"images/" . $courseID.".".$extension);
 			    	if($extension === "png"){
 				    	function png2jpg($originalFile, $outputFile, $quality) {
 						    $image = imagecreatefrompng($originalFile);
@@ -125,8 +127,6 @@
 						$quality = "95";
 						png2jpg($originalFile, $outputFile, $quality);
 			    	}
-					move_uploaded_file($_FILES["file"]["tmp_name"],
-					"images/" . $courseID.".".$extension);
 					
 					$size = getimagesize("images/".$courseID.".jpg");
 					$imageWidth = $size[0];
