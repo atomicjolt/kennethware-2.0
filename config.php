@@ -61,7 +61,7 @@
 
   // TEMPLATE ARRAY (templateName, minWidth,minHeight, ratioX,ratioY)
   // This array is for customizing banner images for template themes
-  $result = $dbh->prepare('SELECT * FROM front_page_themes WHERE account_id = ?');
+  $result = $dbh->prepare('SELECT template_name, min_width, min_height, ratio_x, ratio_y FROM front_page_themes WHERE account_id = ?');
   $result->execute(array($account->id));
 
   $templates = array();
