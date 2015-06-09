@@ -4,11 +4,12 @@ lock '3.4.0'
 set :application, 'tools'
 set :repo_url, 'git@github.com:atomicjolt/kennethware-2.0.git'
 
+set :branch, -> { `git rev-parse --abbrev-ref HEAD`.chomp }
+
+set :log_level, :info
+
 set :logtail_files, %w( /var/log/nginx/*.log )
 set :logtail_lines, 50
-
-# Default branch is :master
-# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/srv/www/tools'
@@ -21,12 +22,9 @@ set :deploy_to, '/srv/www/tools'
 
 namespace :deploy do
 
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
+  task :restart do
+    on roles(:app) do
+      execute :sudo, "restart php5-fpm"
     end
   end
 

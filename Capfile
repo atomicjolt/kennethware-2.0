@@ -10,5 +10,7 @@ require 'capistrano/shell' # https://rubygems.org/gems/capistrano-shell
 
 require 'capistrano/logtail' # https://github.com/ydkn/capistrano-logtail
 
+require 'capistrano/composer'
+
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 # Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
