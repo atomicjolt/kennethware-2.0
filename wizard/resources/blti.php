@@ -69,7 +69,7 @@ class BLTI {
             $result = $dbh->prepare('SELECT * FROM tokens WHERE ? = ?');
             $result->execute(array($query_key, $oauth_consumer_key));
 
-            if ( $result->rowCount() != 1 ) {
+            if ( count($result->fetchAll()) != 1 ) {
                 $this->message = "Your consumer is not authorized oauth_consumer_key=".$oauth_consumer_key;
                 return;
             } else {

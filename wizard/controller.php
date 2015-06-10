@@ -23,12 +23,12 @@
 		$result = $dbh->prepare("SELECT canvas_user_id FROM tokens WHERE canvas_user_id = ? AND domain = ?");
 		$result->execute(array($canvasUserID,$domain));
 
-		if($result->rowCount() >= 1)
+		if(count($result->fetchAll()) >= 1)
 		{
-			$userCheck = $result->fetch(PDO::FETCH_ASSOC)['canvas_user_id'];
+			$userCheck = true;
 		}
 		else {
-			$userCheck = null;
+			$userCheck = false;
 		}
 
 		if (!$userCheck){
