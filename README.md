@@ -45,12 +45,12 @@ Copy and paste the following into that file changing values to match your config
 
 # Client id and secret obtained from Instructure. (Get these values from: https://docs.google.com/forms/d/1C5vOpWHAAl-cltj2944-NM0w16AiCvKQFJae3euwwM8/viewform)
 SetEnv CLIENT_ID "17000000000xxxx"
-SetEnv CLIENT_SECRET "it's a secret" 
+SetEnv CLIENT_SECRET "it's a secret"
 
-SetEnv ENCRYPTION_KEY "Generate an encryption key" 
+SetEnv ENCRYPTION_KEY "Generate an encryption key"
 
 # Change this to the domain that will be serving global.js and global.css
-SetEnv ASSETS_SERVER "assets.lmstools.org" 
+SetEnv ASSETS_SERVER "assets.lmstools.org"
 
 SetEnv DB_TYPE "pgsql"
 SetEnv DB_NAME "unizin_manager_development"
@@ -58,3 +58,7 @@ SetEnv DB_HOST "localhost"
 SetEnv DB_PORT ""
 SetEnv DB_USER ""
 SetEnv DB_PASS ""
+
+Deploy
+======
+cap production deploy
