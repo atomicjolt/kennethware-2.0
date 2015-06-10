@@ -22,7 +22,8 @@
 		/* query DB to see if user has token, if yes, go to LTI*/
 		$result = $dbh->prepare("SELECT canvas_user_id FROM tokens WHERE canvas_user_id = ? AND domain = ?");
 		$result->execute(array($canvasUserID,$domain));
-
+		error_log('count: ');
+		error_log(count($result->fetchAll()) );
 		if(count($result->fetchAll()) >= 1)
 		{
 			$userCheck = true;

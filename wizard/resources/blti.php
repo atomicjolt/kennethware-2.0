@@ -68,7 +68,8 @@ class BLTI {
             $query_key = $parm['key_column'] ? $parm['key_column'] : 'oauth_consumer_key';
             $result = $dbh->prepare('SELECT * FROM tokens WHERE ? = ?');
             $result->execute(array($query_key, $oauth_consumer_key));
-
+            error_log('count: ');
+            error_log(count($result->fetchAll()) );
             if ( count($result->fetchAll()) != 1 ) {
                 $this->message = "Your consumer is not authorized oauth_consumer_key=".$oauth_consumer_key;
                 return;
