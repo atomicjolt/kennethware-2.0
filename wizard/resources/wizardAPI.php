@@ -20,7 +20,7 @@
     $dbCall->execute(array($userID,$domain));
 
     $encrypted_user_token = $dbCall->fetch(PDO::FETCH_ASSOC)['encrypted_token'];
-    // $encrypted_user_token = utf8_decode($encrypted_user_token);
+    $encrypted_user_token = utf8_decode($encrypted_user_token);
 
     //decrypt token
     $token = $cipher->decrypt($encrypted_user_token);
