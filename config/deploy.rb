@@ -19,6 +19,7 @@ set :deploy_to, '/srv/www/tools'
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+after 'deploy:publishing', 'deploy:restart'
 
 namespace :deploy do
 
