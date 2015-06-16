@@ -11,6 +11,8 @@
 		exit;
 	}
 	require_once (__DIR__.'/../../config.php');
+	error_log('[wizard_pages.php] config.php: ' . __DIR__.'/../../config.php');
+
 	// Include API Calls
 	require_once 'wizardAPI.php';
 	?>
@@ -46,8 +48,10 @@
 		<div class="row-fluid">
 			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 				<div class="list-group">
-			  		<?php 
+			  		<?php
 						$primaryTemplate = getPageFromCourse($courseID, "primary-template");
+						error_log('[wizard_pages.php] $primaryTemplate: ' . print_r($primaryTemplate, true));
+
 						if (isset($primaryTemplate->message) && $primaryTemplate->message == 'page not found') {
 							$primaryText = '<i class="fa fa-plus-circle"></i> Create Primary Template Page';
 							$primaryBtnState = 'primary';
@@ -63,7 +67,7 @@
 			  				</div>
 			  			</div>';
 			  		?>
-			  		<?php 
+			  		<?php
 						$secondaryTemplate = getPageFromCourse($courseID, "secondary-template");
 						if (isset($secondaryTemplate->message) && $secondaryTemplate->message == 'page not found') {
 							$secondaryText = '<i class="fa fa-plus-circle"></i> Create Secondary Template Page';
