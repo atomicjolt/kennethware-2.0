@@ -31,7 +31,7 @@
 	$userID=$_SESSION['userID'];
 
 	$dbCall = $dbh->prepare("INSERT INTO tokens VALUES (DEFAULT,?,?,?)");
-	$result = $dbCall->execute(array($userID, $encrypted_user_token, $_SESSION['apiDomain']));
+	$result = $dbCall->execute(array($userID, utf8_encode($encrypted_user_token), $_SESSION['apiDomain']));
 
   // Use when debugging datbase call
   // if(!$result){
