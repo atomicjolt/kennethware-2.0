@@ -16,14 +16,21 @@
 		$_SESSION['userFullName'] = $_POST["lis_person_name_full"];
 		$_SESSION['courseID'] = $_POST["custom_canvas_course_id"];
 		$_SESSION['apiDomain'] = $_POST["custom_canvas_api_domain"];
+		error_log('[controller.php] $custom_canvas_api_domain: ' . $custom_canvas_api_domain);
+
 		$_SESSION['canvasURL'] = 'https://'.$_SESSION['apiDomain'];
+		error_log('[controller.php] canvasURL: ' . $_SESSION['canvasURL']);
+
 		$domain = $_SESSION['apiDomain'];
+		error_log('[controller.php] $domain: ' . $domain);
 
 		/* query DB to see if user has token, if yes, go to LTI*/
 		$result = $dbh->prepare("SELECT canvas_user_id FROM tokens WHERE canvas_user_id = ? AND domain = ?");
 		$result->execute(array($canvasUserID,$domain));
-		error_log('count: ');
-		error_log(count($result->fetchAll()) );
+
+		error_log('[controller.php] $count: ' . count($result->fetchAll()));
+		error_log('[controller.php] $count2: ' . count($result->fetchAll()));
+
 		if(count($result->fetchAll()) >= 1)
 		{
 			$userCheck = true;

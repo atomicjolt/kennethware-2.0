@@ -11,8 +11,10 @@
   // The URL for where the "wizard" folder is located
   $code = explode(".", $_SERVER['HTTP_HOST'], 2)[0];
 
+  error_log('[config.php] $code: ' . $code);
+
   $_SESSION['template_wizard_url'] = "https://" . $_SERVER['HTTP_HOST'] . '/wizard';
-  
+
   require_once __DIR__.'/wizard/resources/blti.php';
   require_once __DIR__.'/wizard/resources/cryptastic.php';
   require_once($_SERVER['DOCUMENT_ROOT'].'/vendor/phpseclib/phpseclib/phpseclib/Crypt/AES.php');
@@ -20,7 +22,7 @@
   $dbType = getenv("DB_TYPE");
   $dbName = getenv("DB_NAME");
   $dbHost = getenv("DB_HOST");
-  
+
   $dsn = "$dbType:dbname=$dbName;host=$dbHost";
 
   if($dbPort = getenv("DB_PORT")){
@@ -45,6 +47,8 @@
 
   $account = $result->fetch(PDO::FETCH_OBJ);
 
+  error_log('[config.php] Account: ' . print_r($account, true));
+
   // Strings to help encrypt/decrypt user OAuth tokens
   $salt = $account->salt;
   $pass = $account->pass;
@@ -55,7 +59,8 @@
 
   // The Shared Secret you use when setting up the Template Wizard LTI tool
   $lti_secret = $account->lti_secret;
-  
+  error_log('[config.php] $lti_secret: ' . $lti_secret);
+
   // Message to display if the OAuth token request fails
   $oauth_error_message = 'There is a problem, contact someone to fix it';
 
