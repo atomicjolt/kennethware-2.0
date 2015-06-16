@@ -24,7 +24,7 @@
 
     //decrypt token
     $token = $cipher->decrypt($encrypted_user_token);
-    error_log('[wizardAPI.php] $encrypted_user_token: ' . $encrypted_user_token);
+    error_log('[wizardAPI.php] $token: ' . $token);
 
     // This is the header containing the authorization token from Canvas
     $tokenHeader = array("Authorization: Bearer ".$token);
