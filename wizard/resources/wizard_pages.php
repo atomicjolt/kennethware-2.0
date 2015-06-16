@@ -11,7 +11,6 @@
 		exit;
 	}
 	require_once (__DIR__.'/../../config.php');
-	error_log('[wizard_pages.php] config.php: ' . __DIR__.'/../../config.php');
 
 	// Include API Calls
 	require_once 'wizardAPI.php';

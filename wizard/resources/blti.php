@@ -69,9 +69,12 @@ class BLTI {
             $result = $dbh->prepare('SELECT * FROM tokens WHERE ? = ?');
             $result->execute(array($query_key, $oauth_consumer_key));
 
-            error_log('[blti.php] $count: ' . count($result->fetchAll()));
+            $count_result = $dbh->prepare("SELECT count(*) FROM tokens WHERE ? = ?");
+            $count_result->execute(array($query_key, $oauth_consumer_key));
+            $number_of_rows = $count_result->fetchColumn();
+            error_log('[controller.php] $number_of_rows: ' . $number_of_rows);
 
-            if ( count($result->fetchAll()) != 1 ) {
+            if ( $number_of_rows != 1 ) {
                 $this->message = "Your consumer is not authorized oauth_consumer_key=".$oauth_consumer_key;
                 return;
             } else {

@@ -28,10 +28,12 @@
 		$result = $dbh->prepare("SELECT canvas_user_id FROM tokens WHERE canvas_user_id = ? AND domain = ?");
 		$result->execute(array($canvasUserID,$domain));
 
-		error_log('[controller.php] $count: ' . count($result->fetchAll()));
-		error_log('[controller.php] $count2: ' . count($result->fetchAll()));
+		$count_result = $dbh->prepare("SELECT count(canvas_user_id) FROM tokens WHERE canvas_user_id = ? AND domain = ?");
+		$count_result->execute(array($canvasUserID,$domain));
+		$number_of_rows = $count_result->fetchColumn();
+		error_log('[controller.php] $number_of_rows: ' . $number_of_rows);
 
-		if(count($result->fetchAll()) >= 1)
+		if($number_of_rows >= 1)
 		{
 			$userCheck = true;
 		}
