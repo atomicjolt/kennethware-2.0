@@ -16,7 +16,11 @@
 		$_SESSION['userFullName'] = $_POST["lis_person_name_full"];
 		$_SESSION['courseID'] = $_POST["custom_canvas_course_id"];
 		$_SESSION['apiDomain'] = $_POST["custom_canvas_api_domain"];
-		error_log('[controller.php] $custom_canvas_api_domain: ' . $custom_canvas_api_domain);
+		error_log('[controller.php] $_POST["custom_canvas_api_domain"]: ' . $_POST["custom_canvas_api_domain"]);
+		error_log('[controller.php] $_SESSION["courseID"]: ' . $_SESSION['courseID']);
+		error_log('[controller.php] $_SESSION["userID"]: ' . $_SESSION['userID']);
+		error_log('[controller.php] $_SESSION["apiDomain"]: ' . $_SESSION['apiDomain']);
+		error_log('[controller.php] SESSION: ' . print_r($_SESSION, true));
 
 		$_SESSION['canvasURL'] = 'https://'.$_SESSION['apiDomain'];
 		error_log('[controller.php] canvasURL: ' . $_SESSION['canvasURL']);

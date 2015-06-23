@@ -5,6 +5,7 @@
         error_reporting(E_ALL);
         ini_set('display_errors', '1');
 
+    error_log('[wizardAPI.php] SESSION: ' . print_r($_SESSION, true));
     //Set variables
     $courseID = $_SESSION['courseID'] ;
     error_log('[wizardAPI.php] $courseID: ' . $courseID);
