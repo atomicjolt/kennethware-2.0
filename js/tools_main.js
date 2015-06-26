@@ -622,7 +622,7 @@ klToolsArrays, vendor_legacy_normal_contrast, klAfterToolLaunch, klAdditionalAcc
             $('.kl_custom_theme_options').hide();
             $('.' + activeSection + '_options').show();
         });
-        $('.kl_fp_theme').unbind("click").click(function (e) {
+        $('.kl_fp_theme').click(function (e) {
             e.preventDefault();
             klTemplateCheck();
             klScrollToElement('#kl_wrapper');
